@@ -82,7 +82,7 @@ const WEBSITE_SCHEMA = {
 
 export const SEO_PAGES: Record<string, PageSEO> = {
   home: {
-    title: 'S Kumar Construction & Interior | Interior Design & Construction Ahmedabad',
+    title: 'Interior Design & Construction in Ahmedabad | S Kumar',
     description: 'S Kumar Construction & Interior provides comprehensive interior design, custom joinery, and turnkey civil construction across Ahmedabad, Gujarat, and Pan India.',
     canonical: `${DOMAIN}/`,
     keywords: 'S Kumar Construction, Interior Designer Ahmedabad, Turnkey Interior Contractor, Civil Construction Gujarat, Custom Furniture Ahmedabad, 3 BHK Interior Design, Villa Interiors Ahmedabad, Pan India Interior Design',
