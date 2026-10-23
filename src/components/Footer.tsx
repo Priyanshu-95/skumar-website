@@ -1,16 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Phone, Mail, MapPin } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 
 interface FooterProps {
-  setActiveTab: (tab: string) => void;
   onOpenEstimator: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator }) => {
-  const scrollToTop = (tabName: string) => {
-    setActiveTab(tabName);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+export const Footer: React.FC<FooterProps> = ({ onOpenEstimator }) => {
+  const navigate = useNavigate();
+
+  const handleLinkClick = (path: string) => {
+    navigate(path);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -20,7 +24,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 space-y-14">
         
-        {/* Top CTA Banner with ScrollReveal */}
+        {/* Top CTA Banner */}
         <ScrollReveal>
           <div className="border-b border-white/15 pb-14 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
             <div className="space-y-3 max-w-3xl">
@@ -49,7 +53,15 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
             
             {/* Column 1: Brand Info */}
             <div className="space-y-5">
-              <div className="p-1 rounded-md inline-block">
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick('/');
+                }}
+                className="p-1 rounded-md inline-block"
+                aria-label="S Kumar Construction & Interior Home"
+              >
                 <img
                   src="/skumar-logo-white.png"
                   alt="S Kumar Construction & Interior Logo"
@@ -57,7 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
                   height={60}
                   className="h-14 sm:h-16 w-auto object-contain transition-transform hover:scale-105 drop-shadow-sm"
                 />
-              </div>
+              </a>
               <p className="text-xs sm:text-sm text-stone-200 leading-relaxed font-light">
                 Comprehensive turnkey construction, bespoke interior design, custom joinery, and contemporary wall & ceiling solutions for residential and commercial environments.
               </p>
@@ -73,18 +85,20 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
               </h3>
               <ul className="space-y-2.5 text-sm font-medium">
                 {[
-                  { id: 'home', label: 'Home Experience' },
-                  { id: 'work', label: 'Selected Portfolio' },
-                  { id: 'services', label: 'Services Scope' },
-                  { id: 'about', label: 'About S Kumar' },
-                  { id: 'contact', label: 'Contact Studio' }
+                  { path: '/', label: 'Home Experience' },
+                  { path: '/interior-design-ahmedabad', label: 'Interior Design Services' },
+                  { path: '/custom-furniture-joinery', label: 'Custom Furniture & Joinery' },
+                  { path: '/civil-construction-gujarat', label: 'Civil Construction' },
+                  { path: '/projects', label: 'Selected Portfolio' },
+                  { path: '/about', label: 'About S Kumar' },
+                  { path: '/contact', label: 'Contact Studio' }
                 ].map((item) => (
-                  <li key={item.id}>
+                  <li key={item.path}>
                     <a
-                      href={item.id === 'home' ? '/' : `/?tab=${item.id}`}
+                      href={item.path}
                       onClick={(e) => {
                         e.preventDefault();
-                        scrollToTop(item.id);
+                        handleLinkClick(item.path);
                       }}
                       className="text-stone-200 hover:text-[#B89563] transition-colors flex items-center gap-2 group text-left focus:outline-none"
                     >
@@ -102,16 +116,64 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
                 CORE OFFERINGS
               </h3>
               <ul className="space-y-2.5 text-xs sm:text-sm text-stone-200 font-light">
-                <li>• Turnkey Civil Construction</li>
-                <li>• Bespoke Interior Design (Pan India)</li>
-                <li>• Custom Furniture & Joinery</li>
-                <li>• 2 BHK, 3 BHK & Villa Interiors</li>
-                <li>• Executive Corporate Fit-Outs</li>
-                <li>• PVC Wall & Ceiling Solutions</li>
+                <li>
+                  <a
+                    href="/civil-construction-gujarat"
+                    onClick={(e) => { e.preventDefault(); handleLinkClick('/civil-construction-gujarat'); }}
+                    className="hover:text-[#B89563] transition-colors"
+                  >
+                    • Turnkey Civil Construction
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/interior-design-ahmedabad"
+                    onClick={(e) => { e.preventDefault(); handleLinkClick('/interior-design-ahmedabad'); }}
+                    className="hover:text-[#B89563] transition-colors"
+                  >
+                    • Bespoke Residential Interiors
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/custom-furniture-joinery"
+                    onClick={(e) => { e.preventDefault(); handleLinkClick('/custom-furniture-joinery'); }}
+                    className="hover:text-[#B89563] transition-colors"
+                  >
+                    • Custom Furniture & Joinery
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/interior-design-ahmedabad"
+                    onClick={(e) => { e.preventDefault(); handleLinkClick('/interior-design-ahmedabad'); }}
+                    className="hover:text-[#B89563] transition-colors"
+                  >
+                    • 2 BHK, 3 BHK & Villa Interiors
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/interior-design-ahmedabad"
+                    onClick={(e) => { e.preventDefault(); handleLinkClick('/interior-design-ahmedabad'); }}
+                    className="hover:text-[#B89563] transition-colors"
+                  >
+                    • Executive Corporate Fit-Outs
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/custom-furniture-joinery"
+                    onClick={(e) => { e.preventDefault(); handleLinkClick('/custom-furniture-joinery'); }}
+                    className="hover:text-[#B89563] transition-colors"
+                  >
+                    • PVC Wall & Ceiling Solutions
+                  </a>
+                </li>
               </ul>
             </div>
 
-            {/* Column 4: Office Location & Direct Contact */}
+            {/* Column 4: Office Location & Direct Contact (NAP matching schema) */}
             <div className="space-y-4">
               <h3 className="tracking-label text-[10px] uppercase text-[#B89563] font-semibold border-b border-white/10 pb-2">
                 STUDIO LOCATION
@@ -150,59 +212,38 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
               © {new Date().getFullYear()} S Kumar Construction & Interior. All rights reserved.
             </div>
 
-            <div className="flex items-center gap-5 font-normal">
+            <div className="flex items-center gap-6">
               <a
-                href="/?tab=privacy"
+                href="/privacy"
                 onClick={(e) => {
                   e.preventDefault();
-                  setActiveTab('privacy');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  handleLinkClick('/privacy');
                 }}
-                className="hover:text-white transition-colors cursor-pointer text-left"
+                className="hover:text-[#B89563] transition-colors"
               >
                 Privacy Policy
               </a>
+              <span className="text-white/20">•</span>
               <a
-                href="/?tab=terms"
+                href="/terms"
                 onClick={(e) => {
                   e.preventDefault();
-                  setActiveTab('terms');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  handleLinkClick('/terms');
                 }}
-                className="hover:text-white transition-colors cursor-pointer text-left"
+                className="hover:text-[#B89563] transition-colors"
               >
-                Terms and Conditions
+                Terms & Conditions
               </a>
-            </div>
-
-            {/* Social Links with Glowing Dark Glass Capsules & SVG Icons */}
-            <div className="flex items-center gap-2.5">
+              <span className="text-white/20">•</span>
               <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-9 h-9 rounded-full glass-capsule-dark flex items-center justify-center text-white hover:text-[#B89563] hover:bg-white/20 transition-all border border-white/20 shadow-sm"
+                href="/contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick('/contact');
+                }}
+                className="hover:text-[#B89563] transition-colors"
               >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-9 h-9 rounded-full glass-capsule-dark flex items-center justify-center text-white hover:text-[#B89563] hover:bg-white/20 transition-all border border-white/20 shadow-sm"
-              >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-              </a>
-              <a
-                href="https://youtube.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="YouTube"
-                className="w-9 h-9 rounded-full glass-capsule-dark flex items-center justify-center text-white hover:text-[#B89563] hover:bg-white/20 transition-all border border-white/20 shadow-sm"
-              >
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                Studio Directions
               </a>
             </div>
           </div>
@@ -214,4 +255,3 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
 };
 
 export default Footer;
-

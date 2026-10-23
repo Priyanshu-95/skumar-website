@@ -1,20 +1,22 @@
 export interface PageSEO {
+  path: string;
   title: string;
   description: string;
   canonical: string;
-  keywords: string;
   ogType: string;
   ogImage: string;
+  ogImageAlt: string;
+  twitterCard: string;
   robots?: string;
   schema: Record<string, unknown>[];
 }
 
 const DOMAIN = 'https://skumarinterior.com';
-const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop';
+const LOCAL_OG_IMAGE = `${DOMAIN}/og-image.jpg`; // TODO: Replace /public/og-image.jpg with branded photo if desired
 const LOGO_URL = `${DOMAIN}/skumar-logo.png`;
 
-// Verified Official Local Business NAP Schema
-const LOCAL_BUSINESS_SCHEMA = {
+// Verified Official Local Business NAP Schema (RFC-compliant phone format, typed areaServed, local images)
+export const LOCAL_BUSINESS_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': ['HomeAndConstructionBusiness', 'GeneralContractor'],
   '@id': `${DOMAIN}/#localbusiness`,
@@ -23,10 +25,19 @@ const LOCAL_BUSINESS_SCHEMA = {
   legalName: 'S Kumar Construction & Interior',
   url: DOMAIN,
   logo: LOGO_URL,
-  image: DEFAULT_IMAGE,
-  telephone: '+91 98989 66648',
+  image: LOCAL_OG_IMAGE,
+  telephone: '+91-98989-66648',
   email: 'info@skumarinterior.com',
   priceRange: '₹₹₹',
+  hasMap: 'https://www.google.com/maps/dir/?api=1&destination=Antilia+Business+Hub,+Nana+Chiloda+Circle,+Ahmedabad,+Gujarat+382330', // TODO: Verify specific Google Maps CID link if available
+  sameAs: [
+    // TODO: Verify exact live social URLs
+    'https://maps.google.com/?cid=skumar-interior-ahmedabad',
+    'https://instagram.com/skumar_interior',
+    'https://facebook.com/skumarinterior',
+    'https://linkedin.com/company/skumar-interior',
+    'https://www.indiamart.com/skumar-interior-ahmedabad'
+  ],
   address: {
     '@type': 'PostalAddress',
     streetAddress: '414, Antilia Business Hub, S.P. Ring Road, Nana Chiloda Circle',
@@ -51,20 +62,42 @@ const LOCAL_BUSINESS_SCHEMA = {
   areaServed: [
     { '@type': 'City', name: 'Ahmedabad' },
     { '@type': 'City', name: 'Gandhinagar' },
-    { '@type': 'AdministrativeArea', name: 'Gujarat' },
+    { '@type': 'State', name: 'Gujarat' },
     { '@type': 'Country', name: 'India' }
   ],
-  knowsAbout: [
-    'Turnkey Civil Construction',
-    'Residential Interior Design',
-    'Burmese Teak Joinery & Custom Furniture',
-    '3 BHK and Villa Interior Design',
-    'Commercial Office Fit-Outs',
-    'PVC Wall and Ceiling Solutions'
-  ],
-  sameAs: [
-    'https://www.google.com/maps/dir/?api=1&destination=Antilia+Business+Hub,+Nana+Chiloda+Circle,+Ahmedabad,+Gujarat+382330'
-  ]
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Construction & Interior Design Services',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Interior Design Services',
+          description: 'Turnkey residential and commercial interior design in Ahmedabad and Gandhinagar.',
+          url: `${DOMAIN}/interior-design-ahmedabad`
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Custom Furniture & Joinery',
+          description: 'Made-to-measure wardrobes, kitchens, TV units and artisan woodwork crafted for your space in Ahmedabad and across Gujarat.',
+          url: `${DOMAIN}/custom-furniture-joinery`
+        }
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Civil Construction Contracting',
+          description: 'Turnkey civil construction for homes, offices and commercial spaces in Ahmedabad and Gujarat.',
+          url: `${DOMAIN}/civil-construction-gujarat`
+        }
+      }
+    ]
+  }
 };
 
 const WEBSITE_SCHEMA = {
@@ -80,14 +113,17 @@ const WEBSITE_SCHEMA = {
   inLanguage: 'en-IN'
 };
 
-export const SEO_PAGES: Record<string, PageSEO> = {
-  home: {
-    title: 'S Kumar Construction & Interior | Interior Design & Construction Ahmedabad',
-    description: 'S Kumar Construction & Interior provides comprehensive interior design, custom joinery, and turnkey civil construction across Ahmedabad, Gujarat, and Pan India.',
+export const ROUTES_SEO: Record<string, PageSEO> = {
+  '/': {
+    path: '/',
+    title: 'Interior Designer & Civil Contractor in Ahmedabad | S Kumar',
+    description: 'Ahmedabad interior designer and civil contractor. S Kumar offers turnkey interiors, custom joinery and construction across Gujarat and Pan India. Get a free quote.',
     canonical: `${DOMAIN}/`,
-    keywords: 'S Kumar Construction, Interior Designer Ahmedabad, Turnkey Interior Contractor, Civil Construction Gujarat, Custom Furniture Ahmedabad, 3 BHK Interior Design, Villa Interiors Ahmedabad, Pan India Interior Design',
     ogType: 'website',
-    ogImage: DEFAULT_IMAGE,
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'S Kumar Construction & Interior - Interior Design & Civil Contractor Ahmedabad',
+    twitterCard: 'summary_large_image',
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
     schema: [
       WEBSITE_SCHEMA,
       LOCAL_BUSINESS_SCHEMA,
@@ -96,278 +132,245 @@ export const SEO_PAGES: Record<string, PageSEO> = {
         '@type': 'WebPage',
         '@id': `${DOMAIN}/#webpage`,
         url: `${DOMAIN}/`,
-        name: 'S Kumar Construction & Interior — Turnkey Interior Design & Construction',
+        name: 'S Kumar Construction & Interior — Interior Designer & Civil Contractor in Ahmedabad',
         description: 'Comprehensive turnkey civil construction, bespoke residential interior design, custom joinery, and commercial fit-outs in Ahmedabad and across India.',
-        isPartOf: { '@id': `${DOMAIN}/#website` },
-        about: { '@id': `${DOMAIN}/#localbusiness` },
-        inLanguage: 'en-IN'
+        isPartOf: { '@id': `${DOMAIN}/#website` }
       }
     ]
   },
-  work: {
-    title: 'Architectural Projects & Interiors Portfolio | S Kumar Ahmedabad',
-    description: 'Explore completed 2 BHK, 3 BHK, luxury villa, corporate office, and healthcare interior architecture projects in Ahmedabad and Gandhinagar by S Kumar.',
-    canonical: `${DOMAIN}/?tab=work`,
-    keywords: 'interior projects Ahmedabad, 3 BHK interior photos, luxury villa interiors Shela, corporate office interior SG Highway, healthcare clinic interiors Ahmedabad',
+
+  '/interior-design-ahmedabad': {
+    path: '/interior-design-ahmedabad',
+    title: 'Interior Design Services in Ahmedabad | S Kumar',
+    description: 'Turnkey home and office interior design in Ahmedabad and Gandhinagar. From concept to handover, with custom joinery and on-site execution. Request a quote.',
+    canonical: `${DOMAIN}/interior-design-ahmedabad`,
     ogType: 'website',
-    ogImage: `${DOMAIN}/projects/bodakdev-3bhk-residence/img_1_full.webp`,
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'Interior Design Services in Ahmedabad by S Kumar Construction & Interior',
+    twitterCard: 'summary_large_image',
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
     schema: [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'CollectionPage',
-        '@id': `${DOMAIN}/?tab=work#collectionpage`,
-        url: `${DOMAIN}/?tab=work`,
-        name: 'Selected Projects & Architectural Spaces | S Kumar Portfolio',
-        description: 'Portfolio of completed residential, villa, commercial, and healthcare interior projects in Ahmedabad and Gandhinagar.',
-        isPartOf: { '@id': `${DOMAIN}/#website` },
-        about: { '@id': `${DOMAIN}/#localbusiness` },
-        inLanguage: 'en-IN'
-      },
+      LOCAL_BUSINESS_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: `${DOMAIN}/`
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Projects Portfolio',
-            item: `${DOMAIN}/?tab=work`
-          }
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${DOMAIN}/` },
+          { '@type': 'ListItem', position: 2, name: 'Interior Design Ahmedabad', item: `${DOMAIN}/interior-design-ahmedabad` }
         ]
-      }
-    ]
-  },
-  services: {
-    title: 'Interior Design & Civil Construction Services Ahmedabad | S Kumar',
-    description: 'End-to-end turnkey services: custom Burmese teak joinery, residential interior design, villa architecture, corporate offices, healthcare, and PVC panelling.',
-    canonical: `${DOMAIN}/?tab=services`,
-    keywords: 'interior design services Ahmedabad, civil construction contractor Gujarat, custom joinery Ahmedabad, Burmese teak furniture, office interior design, PVC panelling',
-    ogType: 'website',
-    ogImage: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop',
-    schema: [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'ItemPage',
-        '@id': `${DOMAIN}/?tab=services#itempage`,
-        url: `${DOMAIN}/?tab=services`,
-        name: 'Architectural Services From Conception To Handover',
-        description: 'Comprehensive interior design, modular joinery, turnkey civil execution, and PVC wall and ceiling solutions.',
-        isPartOf: { '@id': `${DOMAIN}/#website` },
-        about: { '@id': `${DOMAIN}/#localbusiness` },
-        inLanguage: 'en-IN'
       },
       {
         '@context': 'https://schema.org',
         '@type': 'Service',
-        name: 'Turnkey Interior Design & Civil Construction',
+        name: 'Interior Design Services in Ahmedabad',
+        serviceType: 'Turnkey Interior Design',
         provider: { '@id': `${DOMAIN}/#localbusiness` },
         areaServed: [
           { '@type': 'City', name: 'Ahmedabad' },
           { '@type': 'City', name: 'Gandhinagar' },
-          { '@type': 'AdministrativeArea', name: 'Gujarat' },
+          { '@type': 'State', name: 'Gujarat' },
           { '@type': 'Country', name: 'India' }
         ],
-        hasOfferCatalog: {
-          '@type': 'OfferCatalog',
-          name: 'Interior & Construction Services',
-          itemListElement: [
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wooden Work & Custom Joinery' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Residential Interiors (2 BHK & 3 BHK)' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Bungalows & Luxury Villas' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Turnkey Execution & Civil Work' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Commercial & Executive Offices' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Hospitality Spaces' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Healthcare & Clinic Interiors' } },
-            { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'PVC Wall & Ceiling Solutions' } }
-          ]
-        }
-      },
+        description: 'Turnkey home and office interior design in Ahmedabad and Gandhinagar. From concept to handover, with custom joinery and on-site execution.'
+      }
+    ]
+  },
+
+  '/custom-furniture-joinery': {
+    path: '/custom-furniture-joinery',
+    title: 'Custom Furniture & Joinery in Ahmedabad | S Kumar',
+    description: 'Made-to-measure wardrobes, kitchens, TV units and furniture crafted for your space in Ahmedabad and across Gujarat. See our work and get a quote.',
+    canonical: `${DOMAIN}/custom-furniture-joinery`,
+    ogType: 'website',
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'Custom Furniture & Joinery in Ahmedabad by S Kumar',
+    twitterCard: 'summary_large_image',
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    schema: [
+      LOCAL_BUSINESS_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: `${DOMAIN}/`
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Services',
-            item: `${DOMAIN}/?tab=services`
-          }
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${DOMAIN}/` },
+          { '@type': 'ListItem', position: 2, name: 'Custom Furniture & Joinery', item: `${DOMAIN}/custom-furniture-joinery` }
         ]
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: 'Custom Furniture & Artisan Joinery',
+        serviceType: 'Custom Woodwork & Modular Joinery',
+        provider: { '@id': `${DOMAIN}/#localbusiness` },
+        areaServed: [
+          { '@type': 'City', name: 'Ahmedabad' },
+          { '@type': 'City', name: 'Gandhinagar' },
+          { '@type': 'State', name: 'Gujarat' }
+        ],
+        description: 'Made-to-measure wardrobes, modular kitchens, TV consoles, Burmese teak woodwork, and architectural panelling in Ahmedabad.'
       }
     ]
   },
-  about: {
-    title: 'About Us | S Kumar Construction & Interior Studio Ahmedabad',
-    description: 'Learn about S Kumar Construction & Interior — our craftsmanship, design philosophy, single-point accountability, and pan-India interior design capabilities.',
-    canonical: `${DOMAIN}/?tab=about`,
-    keywords: 'about S Kumar Construction, interior architecture studio Ahmedabad, civil contractor profile Gujarat, turnkey interior company',
+
+  '/civil-construction-gujarat': {
+    path: '/civil-construction-gujarat',
+    title: 'Civil Construction Contractor in Gujarat | S Kumar',
+    description: 'Turnkey civil construction for homes, offices and commercial spaces in Ahmedabad and Gujarat. Reliable planning, execution and delivery. Contact us today.',
+    canonical: `${DOMAIN}/civil-construction-gujarat`,
     ogType: 'website',
-    ogImage: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop',
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'Civil Construction Contractor in Gujarat - S Kumar',
+    twitterCard: 'summary_large_image',
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
     schema: [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'AboutPage',
-        '@id': `${DOMAIN}/?tab=about#aboutpage`,
-        url: `${DOMAIN}/?tab=about`,
-        name: 'About S Kumar Construction & Interior',
-        description: 'Architectural concept design, civil construction, and precision joinery under single studio management.',
-        isPartOf: { '@id': `${DOMAIN}/#website` },
-        about: { '@id': `${DOMAIN}/#localbusiness` },
-        inLanguage: 'en-IN'
-      },
+      LOCAL_BUSINESS_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: `${DOMAIN}/`
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'About Us',
-            item: `${DOMAIN}/?tab=about`
-          }
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${DOMAIN}/` },
+          { '@type': 'ListItem', position: 2, name: 'Civil Construction Gujarat', item: `${DOMAIN}/civil-construction-gujarat` }
         ]
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: 'Civil Construction Contracting',
+        serviceType: 'Turnkey Civil Contracting',
+        provider: { '@id': `${DOMAIN}/#localbusiness` },
+        areaServed: [
+          { '@type': 'City', name: 'Ahmedabad' },
+          { '@type': 'City', name: 'Gandhinagar' },
+          { '@type': 'State', name: 'Gujarat' }
+        ],
+        description: 'Turnkey civil construction, structural alterations, masonry, plumbing, electrical, and finishing across Gujarat.'
       }
     ]
   },
-  contact: {
-    title: 'Contact S Kumar Construction & Interior | Ahmedabad Office & Enquiry',
-    description: 'Get in touch with S Kumar Construction & Interior at Antilia Business Hub, S.P. Ring Road, Ahmedabad. Phone: +91 98989 66648. Schedule a studio consultation.',
-    canonical: `${DOMAIN}/?tab=contact`,
-    keywords: 'contact interior designer Ahmedabad, S Kumar address, Antilia Business Hub Nana Chiloda, interior consultation Ahmedabad',
+
+  '/projects': {
+    path: '/projects',
+    title: 'Interior Design & Construction Portfolio | S Kumar',
+    description: 'Explore completed luxury residential, villa, and commercial interior design and construction projects executed by S Kumar across Ahmedabad and Gujarat.',
+    canonical: `${DOMAIN}/projects`,
     ogType: 'website',
-    ogImage: DEFAULT_IMAGE,
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'Completed Portfolio - S Kumar Construction & Interior',
+    twitterCard: 'summary_large_image',
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
     schema: [
+      LOCAL_BUSINESS_SCHEMA,
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${DOMAIN}/` },
+          { '@type': 'ListItem', position: 2, name: 'Portfolio', item: `${DOMAIN}/projects` }
+        ]
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Interior Design & Construction Portfolio Ahmedabad',
+        description: 'Curated architectural portfolio of villas, 3 BHK apartments, corporate offices, and clinics in Ahmedabad.'
+      }
+    ]
+  },
+
+  '/contact': {
+    path: '/contact',
+    title: 'Contact S Kumar Studio & Office in Ahmedabad',
+    description: 'Contact S Kumar Construction & Interior in Ahmedabad. Visit our studio at Nana Chiloda Circle, S.P. Ring Road, or call for turnkey interior consultations.',
+    canonical: `${DOMAIN}/contact`,
+    ogType: 'website',
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'Contact S Kumar Construction & Interior Studio Ahmedabad',
+    twitterCard: 'summary_large_image',
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    schema: [
+      LOCAL_BUSINESS_SCHEMA,
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${DOMAIN}/` },
+          { '@type': 'ListItem', position: 2, name: 'Contact', item: `${DOMAIN}/contact` }
+        ]
+      },
       {
         '@context': 'https://schema.org',
         '@type': 'ContactPage',
-        '@id': `${DOMAIN}/?tab=contact#contactpage`,
-        url: `${DOMAIN}/?tab=contact`,
         name: 'Contact S Kumar Construction & Interior',
-        description: 'Connect with our architectural design and civil construction studio in Ahmedabad for consultations and project quotes.',
-        isPartOf: { '@id': `${DOMAIN}/#website` },
-        about: { '@id': `${DOMAIN}/#localbusiness` },
-        inLanguage: 'en-IN'
-      },
+        description: 'Schedule spatial consultations, request civil estimates, or visit our design studio in Ahmedabad.'
+      }
+    ]
+  },
+
+  '/about': {
+    path: '/about',
+    title: 'About S Kumar Construction & Interior Ahmedabad',
+    description: 'Learn about S Kumar Construction & Interior in Ahmedabad. Precision craftsmanship, architectural design, custom furniture, and reliable turnkey execution.',
+    canonical: `${DOMAIN}/about`,
+    ogType: 'website',
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'About S Kumar Construction & Interior Studio',
+    twitterCard: 'summary_large_image',
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    schema: [
+      LOCAL_BUSINESS_SCHEMA,
       {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: `${DOMAIN}/`
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Contact Studio',
-            item: `${DOMAIN}/?tab=contact`
-          }
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${DOMAIN}/` },
+          { '@type': 'ListItem', position: 2, name: 'About', item: `${DOMAIN}/about` }
         ]
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'AboutPage',
+        name: 'About S Kumar Construction & Interior',
+        description: 'Our design philosophy, workshop standards, civil contracting history, and leadership in Ahmedabad.'
       }
     ]
   },
-  privacy: {
+
+  '/privacy': {
+    path: '/privacy',
     title: 'Privacy Policy | S Kumar Construction & Interior',
-    description: 'Read the privacy policy of S Kumar Construction & Interior regarding client data protection, cookie usage, and communication standards.',
-    canonical: `${DOMAIN}/?tab=privacy`,
-    keywords: 'privacy policy S Kumar, data protection',
+    description: 'Privacy Policy for S Kumar Construction & Interior. Information on data handling, client confidentiality, and web practices.',
+    canonical: `${DOMAIN}/privacy`,
     ogType: 'website',
-    ogImage: DEFAULT_IMAGE,
-    schema: [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'WebPage',
-        '@id': `${DOMAIN}/?tab=privacy#webpage`,
-        url: `${DOMAIN}/?tab=privacy`,
-        name: 'Privacy Policy | S Kumar Construction & Interior',
-        isPartOf: { '@id': `${DOMAIN}/#website` },
-        inLanguage: 'en-IN'
-      },
-      {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: `${DOMAIN}/`
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Privacy Policy',
-            item: `${DOMAIN}/?tab=privacy`
-          }
-        ]
-      }
-    ]
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'S Kumar Construction & Interior Privacy Policy',
+    twitterCard: 'summary',
+    robots: 'index, follow',
+    schema: [LOCAL_BUSINESS_SCHEMA]
   },
-  terms: {
+
+  '/terms': {
+    path: '/terms',
     title: 'Terms & Conditions | S Kumar Construction & Interior',
-    description: 'Review the terms and conditions for design consultations, turnkey contracts, and website usage with S Kumar Construction & Interior.',
-    canonical: `${DOMAIN}/?tab=terms`,
-    keywords: 'terms and conditions S Kumar Construction & Interior',
+    description: 'Terms and Conditions for architectural consulting, turnkey execution, and custom woodwork contracts with S Kumar.',
+    canonical: `${DOMAIN}/terms`,
     ogType: 'website',
-    ogImage: DEFAULT_IMAGE,
-    schema: [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'WebPage',
-        '@id': `${DOMAIN}/?tab=terms#webpage`,
-        url: `${DOMAIN}/?tab=terms`,
-        name: 'Terms & Conditions | S Kumar Construction & Interior',
-        isPartOf: { '@id': `${DOMAIN}/#website` },
-        inLanguage: 'en-IN'
-      },
-      {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'Home',
-            item: `${DOMAIN}/`
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Terms & Conditions',
-            item: `${DOMAIN}/?tab=terms`
-          }
-        ]
-      }
-    ]
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: 'S Kumar Construction & Interior Terms & Conditions',
+    twitterCard: 'summary',
+    robots: 'index, follow',
+    schema: [LOCAL_BUSINESS_SCHEMA]
   },
-  notFound: {
-    title: 'Page Not Found (404) | S Kumar Construction & Interior',
-    description: 'The blueprint or page you are looking for does not exist. Explore our architectural portfolio, turnkey services, or return to homepage.',
-    canonical: `${DOMAIN}/`,
-    keywords: '404 not found',
+
+  '/404': {
+    path: '/404',
+    title: '404 - Page Not Located | S Kumar Construction',
+    description: 'The requested page could not be located. Explore our interior design services, custom joinery, and civil construction in Ahmedabad.',
+    canonical: `${DOMAIN}/404`,
     ogType: 'website',
-    ogImage: DEFAULT_IMAGE,
-    robots: 'noindex, nofollow',
-    schema: []
+    ogImage: LOCAL_OG_IMAGE,
+    ogImageAlt: '404 Page Not Found - S Kumar Construction',
+    twitterCard: 'summary',
+    robots: 'noindex, follow',
+    schema: [LOCAL_BUSINESS_SCHEMA]
   }
 };

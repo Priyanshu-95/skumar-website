@@ -42,7 +42,7 @@ export const CustomCursor: React.FC = () => {
     };
   }, [isVisible]);
 
-  if (!isVisible || window.innerWidth < 1024) return null;
+  if (typeof window === 'undefined' || !isVisible || window.innerWidth < 1024) return null;
 
   return (
     <div

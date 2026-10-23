@@ -277,7 +277,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, setActiveTa
 
                 {setActiveTab && (
                   <a
-                    href="/?tab=services"
+                    href="/interior-design-ahmedabad"
                     onClick={(e) => {
                       e.preventDefault();
                       onClose();

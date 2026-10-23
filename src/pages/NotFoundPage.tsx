@@ -2,7 +2,7 @@ import React from 'react';
 import { Home, Compass, PhoneCall, Layers, ArrowRight, ShieldAlert } from 'lucide-react';
 
 interface NotFoundPageProps {
-  setActiveTab: (tab: string) => void;
+  setActiveTab?: (tab: string) => void;
   onOpenEstimator?: () => void;
 }
 
@@ -41,8 +41,10 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ setActiveTab, onOpen
           <a
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              setActiveTab('home');
+              if (setActiveTab) {
+                e.preventDefault();
+                setActiveTab('home');
+              }
             }}
             className="p-5 rounded-2xl bg-white/80 border border-stone-200 hover:border-[#B89563] hover:shadow-lg transition-all group flex flex-col items-center justify-center space-y-2 text-center"
           >
@@ -52,10 +54,12 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ setActiveTab, onOpen
           </a>
 
           <a
-            href="/?tab=services"
+            href="/interior-design-ahmedabad"
             onClick={(e) => {
-              e.preventDefault();
-              setActiveTab('services');
+              if (setActiveTab) {
+                e.preventDefault();
+                setActiveTab('services');
+              }
             }}
             className="p-5 rounded-2xl bg-white/80 border border-stone-200 hover:border-[#B89563] hover:shadow-lg transition-all group flex flex-col items-center justify-center space-y-2 text-center"
           >
@@ -65,10 +69,12 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ setActiveTab, onOpen
           </a>
 
           <a
-            href="/?tab=work"
+            href="/projects"
             onClick={(e) => {
-              e.preventDefault();
-              setActiveTab('work');
+              if (setActiveTab) {
+                e.preventDefault();
+                setActiveTab('work');
+              }
             }}
             className="p-5 rounded-2xl bg-white/80 border border-stone-200 hover:border-[#B89563] hover:shadow-lg transition-all group flex flex-col items-center justify-center space-y-2 text-center"
           >
@@ -84,8 +90,10 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ setActiveTab, onOpen
           <a
             href="/"
             onClick={(e) => {
-              e.preventDefault();
-              setActiveTab('home');
+              if (setActiveTab) {
+                e.preventDefault();
+                setActiveTab('home');
+              }
             }}
             className="w-full sm:w-auto px-8 py-3.5 bg-[#171717] text-white hover:bg-[#B89563] transition-colors rounded-full text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2"
           >

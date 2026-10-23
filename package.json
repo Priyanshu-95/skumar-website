@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender.js",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -16,6 +16,7 @@
     "lucide-react": "^1.44.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3"
   },

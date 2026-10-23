@@ -252,7 +252,7 @@ export const About: React.FC<AboutProps> = ({ setActiveTab, onOpenEstimator }) =
 
               {setActiveTab && (
                 <a
-                  href="/?tab=contact"
+                  href="/contact"
                   onClick={(e) => {
                     e.preventDefault();
                     setActiveTab('contact');
