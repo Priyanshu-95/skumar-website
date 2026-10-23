@@ -93,12 +93,14 @@ export function App() {
 
         {activeTab === 'about' && (
           <About
+            setActiveTab={setActiveTab}
             onOpenEstimator={() => setEstimatorOpen(true)}
           />
         )}
 
         {activeTab === 'services' && (
           <ServicesPage
+            setActiveTab={setActiveTab}
             onOpenEstimator={() => setEstimatorOpen(true)}
           />
         )}
@@ -148,6 +150,7 @@ export function App() {
       {/* Project Case Study Detail Modal */}
       <ProjectModal
         project={selectedProject}
+        setActiveTab={setActiveTab}
         onClose={() => setSelectedProject(null)}
         onOpenEstimator={() => setEstimatorOpen(true)}
       />

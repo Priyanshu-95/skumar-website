@@ -1,12 +1,13 @@
 import React from 'react';
-import { ArrowUpRight, Award, ShieldCheck, Compass, Users, CheckCircle2, Building2, Sparkles, Globe } from 'lucide-react';
+import { ArrowUpRight, Award, ShieldCheck, Compass, Users, CheckCircle2, Building2, Sparkles, Globe, MapPin } from 'lucide-react';
 import { ScrollReveal } from '../components/ScrollReveal';
 
 interface AboutProps {
+  setActiveTab?: (tab: string) => void;
   onOpenEstimator: () => void;
 }
 
-export const About: React.FC<AboutProps> = ({ onOpenEstimator }) => {
+export const About: React.FC<AboutProps> = ({ setActiveTab, onOpenEstimator }) => {
   return (
     <div className="pt-32 sm:pt-36 md:pt-40 lg:pt-44 pb-20 bg-[#F5F1E8] text-[#171717] space-y-24 relative overflow-hidden">
       {/* Ambient Lighting Glow Blooms */}
@@ -240,13 +241,29 @@ export const About: React.FC<AboutProps> = ({ onOpenEstimator }) => {
                 Visit our studio at 414, Antilia Business Hub, Nana Chiloda Circle, S.P. Ring Road, Ahmedabad.
               </p>
             </div>
-            <button
-              onClick={onOpenEstimator}
-              className="px-7 py-3.5 bg-[#B89563] text-white hover:bg-[#171717] transition-all duration-300 tracking-label text-[10px] font-semibold rounded-full shadow-md shrink-0 flex items-center gap-2.5"
-            >
-              <span>START YOUR PROJECT</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <button
+                onClick={onOpenEstimator}
+                className="px-7 py-3.5 bg-[#B89563] text-white hover:bg-[#171717] transition-all duration-300 tracking-label text-[10px] font-semibold rounded-full shadow-md flex items-center gap-2.5"
+              >
+                <span>START YOUR PROJECT</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </button>
+
+              {setActiveTab && (
+                <a
+                  href="/?tab=contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveTab('contact');
+                  }}
+                  className="px-6 py-3.5 border border-stone-300 text-[#171717] hover:bg-[#171717] hover:text-white transition-all duration-300 tracking-label text-[10px] font-semibold rounded-full flex items-center gap-2"
+                >
+                  <span>STUDIO DIRECTIONS</span>
+                  <MapPin className="w-3.5 h-3.5 text-[#B89563]" />
+                </a>
+              )}
+            </div>
           </div>
         </ScrollReveal>
       </section>

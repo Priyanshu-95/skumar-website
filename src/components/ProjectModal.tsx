@@ -5,11 +5,12 @@ import { BeforeAfterSlider } from './BeforeAfterSlider';
 
 interface ProjectModalProps {
   project: Project | null;
+  setActiveTab?: (tab: string) => void;
   onClose: () => void;
   onOpenEstimator: () => void;
 }
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, onOpenEstimator }) => {
+export const ProjectModal: React.FC<ProjectModalProps> = ({ project, setActiveTab, onClose, onOpenEstimator }) => {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const handleNextLightbox = useCallback(() => {
@@ -262,16 +263,32 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
               <p className="text-xs sm:text-sm text-[#333330] max-w-md mx-auto font-light">
                 Our architects provide complete spatial consultation, 3D renderings, and turnkey cost estimations in Ahmedabad & Gandhinagar.
               </p>
-              <button
-                onClick={() => {
-                  onClose();
-                  onOpenEstimator();
-                }}
-                className="bg-[#B89563] text-white px-8 py-4 text-xs tracking-label font-semibold rounded-full inline-flex items-center gap-2 hover:bg-[#171717] transition-all shadow-md"
-              >
-                <span>REQUEST CONSULTATION</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                <button
+                  onClick={() => {
+                    onClose();
+                    onOpenEstimator();
+                  }}
+                  className="bg-[#B89563] text-white px-8 py-4 text-xs tracking-label font-semibold rounded-full inline-flex items-center gap-2 hover:bg-[#171717] transition-all shadow-md"
+                >
+                  <span>REQUEST CONSULTATION</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+
+                {setActiveTab && (
+                  <a
+                    href="/?tab=services"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onClose();
+                      setActiveTab('services');
+                    }}
+                    className="border border-stone-300 text-[#171717] hover:bg-[#171717] hover:text-white px-6 py-4 text-xs tracking-label font-semibold rounded-full inline-flex items-center gap-2 transition-all"
+                  >
+                    <span>EXPLORE ALL SERVICES</span>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>

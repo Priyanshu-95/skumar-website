@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { SERVICES } from '../data/services';
-import { ArrowUpRight, CheckCircle2, Sparkles } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 import { ScrollReveal } from '../components/ScrollReveal';
 
 interface ServicesPageProps {
+  setActiveTab?: (tab: string) => void;
   onOpenEstimator: () => void;
 }
 
-export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenEstimator }) => {
+export const ServicesPage: React.FC<ServicesPageProps> = ({ setActiveTab, onOpenEstimator }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   const categories = ['All', 'Wooden Work', 'Residential', 'Turnkey Execution', 'Commercial', 'Hospitality', 'Healthcare', 'PVC Work'];
@@ -121,7 +122,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenEstimator }) =
                     </div>
                   </div>
 
-                  <div className="pt-3">
+                  <div className="pt-3 flex flex-wrap items-center gap-3">
                     <button
                       onClick={onOpenEstimator}
                       className="group inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#B89563] text-white hover:bg-[#171717] transition-all duration-300 tracking-label text-[10px] font-semibold shadow-md"
@@ -129,6 +130,20 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenEstimator }) =
                       <span>REQUEST SCOPE QUOTE</span>
                       <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                     </button>
+
+                    {setActiveTab && (
+                      <a
+                        href="/?tab=work"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setActiveTab('work');
+                        }}
+                        className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full border border-stone-300/80 text-[#171717] hover:bg-[#171717] hover:text-white transition-all tracking-label text-[10px] font-semibold"
+                      >
+                        <span>VIEW RELATED PROJECTS</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </a>
+                    )}
                   </div>
                 </div>
 
