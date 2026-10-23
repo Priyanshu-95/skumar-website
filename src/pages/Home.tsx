@@ -10,7 +10,7 @@ import { BrandShowcase } from '../components/BrandShowcase';
 import { ScrollReveal } from '../components/ScrollReveal';
 
 interface HomeProps {
-  setActiveTab?: (tab: string) => void;
+  setActiveTab: (tab: string) => void;
   onSelectProject: (project: Project) => void;
   onOpenEstimator: () => void;
 }
@@ -38,8 +38,8 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
         {/* Background Photography with Dark Atmospheric Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/projects/shela-courtyard-villa/img_1_full.webp"
-            alt="Luxury residential villa interior design and turnkey construction by S Kumar in Shela, Ahmedabad"
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop"
+            alt="Luxury residential living space designed and constructed by S Kumar Construction & Interior in Ahmedabad"
             width={2000}
             height={1333}
             fetchPriority="high"
@@ -99,12 +99,10 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                 </button>
 
                 <a
-                  href="/projects"
+                  href="/?tab=work"
                   onClick={(e) => {
-                    if (setActiveTab) {
-                      e.preventDefault();
-                      setActiveTab('work');
-                    }
+                    e.preventDefault();
+                    setActiveTab('work');
                   }}
                   className="w-full sm:w-auto glass-capsule-dark border border-white/30 text-white hover:bg-white hover:text-[#171717] transition-all duration-300 px-7 py-4 text-xs tracking-widest uppercase font-bold flex items-center justify-center gap-2"
                 >
@@ -211,12 +209,10 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
 
                 <div className="pt-2">
                   <a
-                    href="/about"
+                    href="/?tab=about"
                     onClick={(e) => {
-                      if (setActiveTab) {
-                        e.preventDefault();
-                        setActiveTab('about');
-                      }
+                      e.preventDefault();
+                      setActiveTab('about');
                     }}
                     className="tracking-label text-xs text-[#B89563] hover:text-[#171717] transition-colors flex items-center gap-2 group font-semibold"
                   >
@@ -286,9 +282,7 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                   <ScrollReveal key={srv.id} delay={idx * 80}>
                     <div
                       onMouseEnter={() => setActiveServiceHover(srv.id)}
-                      onClick={() => {
-                        if (setActiveTab) setActiveTab('services');
-                      }}
+                      onClick={() => setActiveTab('services')}
                       className={`p-6 sm:p-7 rounded-2xl border transition-all duration-300 cursor-pointer ${
                         isActive
                           ? 'glass-deep text-[#171717] border-[#B89563]/50 shadow-xl scale-[1.005] bg-white'
@@ -362,12 +356,10 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
               </div>
 
               <a
-                href="/interior-design-ahmedabad"
+                href="/?tab=services"
                 onClick={(e) => {
-                  if (setActiveTab) {
-                    e.preventDefault();
-                    setActiveTab('services');
-                  }
+                  e.preventDefault();
+                  setActiveTab('services');
                 }}
                 className="w-full py-3.5 rounded-full bg-stone-100 hover:bg-[#B89563] hover:text-white border border-stone-300/80 text-[#171717] transition-all duration-300 tracking-label text-[10px] flex items-center justify-center gap-2 font-semibold shadow-sm"
               >
@@ -394,12 +386,10 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                 </h2>
               </div>
               <a
-                href="/projects"
+                href="/?tab=work"
                 onClick={(e) => {
-                  if (setActiveTab) {
-                    e.preventDefault();
-                    setActiveTab('work');
-                  }
+                  e.preventDefault();
+                  setActiveTab('work');
                 }}
                 className="tracking-label text-xs text-[#B89563] hover:text-[#171717] transition-colors flex items-center gap-2 group font-semibold"
               >
@@ -718,12 +708,10 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                 </h2>
               </div>
               <a
-                href="/contact"
+                href="/?tab=contact"
                 onClick={(e) => {
-                  if (setActiveTab) {
-                    e.preventDefault();
-                    setActiveTab('contact');
-                  }
+                  e.preventDefault();
+                  setActiveTab('contact');
                 }}
                 className="tracking-label text-xs font-semibold text-[#B89563] hover:text-[#171717] transition-colors flex items-center gap-2 group"
               >

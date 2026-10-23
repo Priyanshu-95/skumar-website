@@ -4,7 +4,6 @@
 const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || '';
 
 export const isAnalyticsConsented = (): boolean => {
-  if (typeof window === 'undefined' || typeof localStorage === 'undefined') return false;
   try {
     const consent = localStorage.getItem('skumar_cookie_consent');
     if (!consent) return false;
