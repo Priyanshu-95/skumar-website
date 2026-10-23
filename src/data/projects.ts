@@ -1,0 +1,229 @@
+import type { Project } from '../types';
+
+export const PROJECTS: Project[] = [
+  {
+    id: 'shela-courtyard-villa',
+    title: 'The Courtyard Villa',
+    category: 'Luxury Villa Interior & Architecture',
+    filterCategory: 'Bungalow / Villa',
+    typeLabel: 'Completed Project',
+    location: 'Shela, Ahmedabad',
+    year: '2025',
+    areaSqFt: '5,800 sq.ft.',
+    heroImage: '/projects/shela-courtyard-villa/img_1_full.webp',
+    gallery: [
+      '/projects/shela-courtyard-villa/img_1_full.webp',
+      '/projects/shela-courtyard-villa/img_2_full.webp',
+      '/projects/shela-courtyard-villa/img_3_full.webp',
+      '/projects/shela-courtyard-villa/img_4_full.webp',
+      '/projects/shela-courtyard-villa/img_5_full.webp',
+      '/projects/shela-courtyard-villa/img_6_full.webp'
+    ],
+    beforeImage: '/projects/shela-courtyard-villa/img_4_full.webp',
+    afterImage: '/projects/shela-courtyard-villa/img_1_full.webp',
+    scope: [
+      'Architectural Interior Planning & Civil Modification',
+      'Double-Height Living Room Skylight Integration',
+      'Italian Marble & Kota Stone Flooring Execution',
+      'Bespoke Fluted Burmese Teak Wood Wall Panels',
+      'Turnkey Lighting & Home Automation Setup'
+    ],
+    designApproach: 'Designed for a modern family seeking spatial harmony in Shela. We integrated central courtyard views into every room, fusing cool natural Kota stone, concealed 2700K warm cove lights, and Burmese teak joinery.',
+    materialPalette: [
+      {
+        name: 'Italian Travertine Stone',
+        description: 'Living room accent wall slab with honed satin finish.',
+        image: 'https://images.unsplash.com/photo-1590402494587-44b71d7772f6?q=80&w=800&auto=format&fit=crop'
+      },
+      {
+        name: 'Burmese Teak Veneer',
+        description: 'Used for fluted acoustic paneling and custom wardrobes.',
+        image: 'https://images.unsplash.com/photo-1546484475-7f7bd55792da?q=80&w=800&auto=format&fit=crop'
+      }
+    ],
+    clientBrief: 'A luxury multi-generational bungalow emphasizing courtyard light, acoustic warmth, and end-to-end turnkey craftsmanship.',
+    featured: true
+  },
+  {
+    id: 'bodakdev-3bhk-residence',
+    title: 'Skyline 3 BHK Residence',
+    category: '3 BHK Residential Interior',
+    filterCategory: 'Residential',
+    typeLabel: 'Completed Project',
+    location: 'Bodakdev, Ahmedabad',
+    year: '2025',
+    areaSqFt: '2,450 sq.ft.',
+    heroImage: '/projects/bodakdev-3bhk-residence/img_1_full.webp',
+    gallery: [
+      '/projects/bodakdev-3bhk-residence/img_1_full.webp',
+      '/projects/bodakdev-3bhk-residence/img_2_full.webp',
+      '/projects/bodakdev-3bhk-residence/img_3_full.webp',
+      '/projects/bodakdev-3bhk-residence/img_4_full.webp',
+      '/projects/bodakdev-3bhk-residence/img_5_full.webp'
+    ],
+    beforeImage: '/projects/bodakdev-3bhk-residence/img_3_full.webp',
+    afterImage: '/projects/bodakdev-3bhk-residence/img_1_full.webp',
+    scope: [
+      'Living & Dining Hall Partition Removal',
+      'Italian Travertine Feature Wall Cladding',
+      'Concealed Dimmable Ceiling Cove Illumination',
+      'Modular Acrylic Kitchen & Pantry Design',
+      'Custom Bedroom Wardrobes & TV Consoles'
+    ],
+    designApproach: 'Combining serene earthy tones and tactile honesty. We opened up non-structural walls to create a cohesive living-dining hall bathed in natural afternoon light.',
+    clientBrief: 'Create an uncluttered, warm residential sanctuary that balances modern minimalist luxury with long-lasting durability.',
+    featured: true
+  },
+  {
+    id: 'satellite-2bhk-apartment',
+    title: 'The Haven 2 BHK Apartment',
+    category: '2 BHK Compact Interior',
+    filterCategory: 'Residential',
+    typeLabel: 'Completed Project',
+    location: 'Satellite, Ahmedabad',
+    year: '2025',
+    areaSqFt: '1,380 sq.ft.',
+    heroImage: '/projects/satellite-2bhk-apartment/img_1_full.webp',
+    gallery: [
+      '/projects/satellite-2bhk-apartment/img_1_full.webp',
+      '/projects/satellite-2bhk-apartment/img_2_full.webp',
+      '/projects/satellite-2bhk-apartment/img_3_full.webp',
+      '/projects/satellite-2bhk-apartment/img_4_full.webp'
+    ],
+    scope: [
+      'Intelligent Space-Maximizing Storage Walls',
+      'Concealed Living Room TV Console',
+      'Light Oak Wood Finish Furniture',
+      'False Ceiling with Glare-Free LED Louvers'
+    ],
+    designApproach: 'Proving urban 2 BHK apartments in Ahmedabad can feel expansive. We utilized mirror accents, light oak joinery, and concealed wall storage.',
+    clientBrief: 'Maximize carpet area for a young couple without compromising architectural elegance.',
+    featured: true
+  },
+  {
+    id: 'zenith-corporate-office',
+    title: 'Zenith Executive Corporate HQ',
+    category: 'Corporate Office Interior',
+    filterCategory: 'Commercial',
+    typeLabel: 'Completed Project',
+    location: 'SG Highway, Ahmedabad',
+    year: '2024',
+    areaSqFt: '8,500 sq.ft.',
+    heroImage: '/projects/zenith-corporate-office/img_1_full.webp',
+    gallery: [
+      '/projects/zenith-corporate-office/img_1_full.webp',
+      '/projects/zenith-corporate-office/img_2_full.webp',
+      '/projects/zenith-corporate-office/img_3_full.webp',
+      '/projects/zenith-corporate-office/img_4_full.webp'
+    ],
+    scope: [
+      'Executive Cabins & Boardroom Architecture',
+      'Acoustic Glass Partitions & Sound Insulation',
+      'Ergonomic Open Workstations (60 Seats)',
+      'Biophilic Planter Walls & HVAC Concealment'
+    ],
+    designApproach: 'Targeted at corporate authority and employee focus. Anodized bronze metal lines, frosted acoustic glass, and biophilic planters create an inspiring work environment.',
+    clientBrief: 'A high-trust corporate headquarters reflecting executive precision and brand prestige on SG Highway.',
+    featured: true
+  },
+  {
+    id: 'aura-boutique-suites',
+    title: 'Aura Boutique Hotel & Suites',
+    category: 'Hospitality Interior Design',
+    filterCategory: 'Hospitality',
+    typeLabel: 'Completed Project',
+    location: 'Near GIFT City, Gandhinagar',
+    year: '2024',
+    areaSqFt: '14,200 sq.ft.',
+    heroImage: '/projects/aura-boutique-suites/img_1_full.webp',
+    gallery: [
+      '/projects/aura-boutique-suites/img_1_full.webp',
+      '/projects/aura-boutique-suites/img_2_full.webp',
+      '/projects/aura-boutique-suites/img_3_full.webp'
+    ],
+    scope: [
+      'Lobby Entrance & Reception Lounge Spatial Design',
+      '36 Executive Guest Room Fit-Outs',
+      'Commercial Acoustic Slat Ceiling Integration',
+      'Custom Contract Upholstery & Lighting'
+    ],
+    designApproach: 'Tailored for international business travelers visiting GIFT City. Geometric timber acoustic louvers, warm copper accents, and heavy-duty commercial textiles.',
+    clientBrief: 'A sleek business hotel environment leaving a memorable impression on corporate visitors in Gandhinagar.',
+    featured: true
+  },
+  {
+    id: 'sanjeevani-health-clinic',
+    title: 'Sanjeevani Specialty Health Center',
+    category: 'Healthcare & Clinic Interior',
+    filterCategory: 'Healthcare',
+    typeLabel: 'Completed Project',
+    location: 'Science City Road, Ahmedabad',
+    year: '2024',
+    areaSqFt: '4,200 sq.ft.',
+    heroImage: '/projects/sanjeevani-health-clinic/img_1_full.webp',
+    gallery: [
+      '/projects/sanjeevani-health-clinic/img_1_full.webp',
+      '/projects/sanjeevani-health-clinic/img_2_full.webp',
+      '/projects/sanjeevani-health-clinic/img_3_full.webp'
+    ],
+    scope: [
+      'Patient Waiting Lounge & Reception Desk',
+      'Sterile Examination & Consultation Chambers',
+      'Anti-Bacterial & Anti-Static Flooring',
+      'Acoustic Ceiling & Soothing Pastel Finishes'
+    ],
+    designApproach: 'Replacing cold clinical vibes with warm, reassuring interior design. Curved wall edges, soft light wood laminates, and calm pastel stone surfaces ease patient anxiety.',
+    clientBrief: 'A premium specialty clinic that feels welcoming like a wellness retreat while meeting all medical sanitation protocols.',
+    featured: false
+  },
+  {
+    id: 'architectural-3d-suite-1',
+    title: 'Contemporary Villa 3D Architectural Suite',
+    category: '3D Interior Architectural Visualization',
+    filterCategory: '3D Visualization',
+    typeLabel: '3D Visualization',
+    location: 'Gandhinagar',
+    year: '2025',
+    areaSqFt: '4,500 sq.ft.',
+    heroImage: '/projects/architectural-3d-suite-1/img_1_full.webp',
+    gallery: [
+      '/projects/architectural-3d-suite-1/img_1_full.webp',
+      '/projects/architectural-3d-suite-1/img_2_full.webp',
+      '/projects/architectural-3d-suite-1/img_3_full.webp',
+      '/projects/architectural-3d-suite-1/img_4_full.webp'
+    ],
+    scope: [
+      'Photorealistic 3D Spatial Walkthrough',
+      'Lighting Simulation & Material Board Mapping',
+      'Pre-Construction Structural Verification',
+      'Custom Joinery & Furniture Modeling'
+    ],
+    designApproach: 'High-precision 3D visualization suite created prior to civil execution, providing 100% realistic previews of stone, joinery, and cove lighting.',
+    clientBrief: 'Give the homeowner complete visual clarity before civil demolition and marble procurement begins.',
+    featured: true
+  },
+  {
+    id: 'pvc-louvered-wall-suite',
+    title: 'The PVC Louvered Residence',
+    category: 'PVC Wall Panelling & False Ceiling Work',
+    filterCategory: 'PVC Work',
+    typeLabel: 'Completed Project',
+    location: 'Satellite, Ahmedabad',
+    year: '2025',
+    areaSqFt: '2,100 sq.ft.',
+    heroImage: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop',
+    gallery: [
+      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop'
+    ],
+    scope: [
+      '3D PVC Fluted Louver Wall Accent Installation',
+      'Moisture-Proof PVC Ceiling Louvers with LED Cove Lights',
+      'Custom Waterproof PVC Kitchen Cabinets',
+      'High-Durability PVC Bedroom Wardrobe Shutters'
+    ],
+    designApproach: 'Engineered for damp-resistant longevity without sacrificing sleek architectural aesthetics. Charcoal & warm timber PVC fluted panels create tactile depth in living and bed chambers.',
+    clientBrief: 'Implement low-maintenance, termite-proof, waterproof PVC wall cladding and false ceiling solutions across the residence.',
+    featured: true
+  }
+];

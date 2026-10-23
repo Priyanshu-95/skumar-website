@@ -1,0 +1,340 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-primary: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Light Architectural Canvas & Tones */
+    --color-background: #F5F1E8;
+    --color-surface-ivory: #F8F5EF;
+    --color-surface-white: #FFFFFF;
+    --color-text-charcoal: #171717;
+    --color-text-muted: #333330;
+    --color-accent-gold: #B89563;
+    --color-accent-gold-dark: #967546;
+
+    /* Centralized Architectural Typography Tokens */
+    --font-heading: var(--font-primary);
+    --font-body: var(--font-primary);
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+
+    /* Master Border Radius Tokens */
+    --radius-sm: 16px;
+    --radius-md: 24px;
+    --radius-lg: 32px;
+    --radius-xl: 44px;
+    --radius-pill: 999px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-body);
+    color: var(--color-text-charcoal);
+    background-color: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-size: 16px;
+    font-weight: var(--weight-regular);
+    line-height: 1.7;
+    color: var(--color-text-charcoal);
+    background-color: var(--color-background);
+    overflow-x: hidden;
+  }
+
+  /* Refined Architectural Typography Hierarchy (Minimal, Light, Sophisticated) */
+  h1, .h1 {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.025em;
+    line-height: 1.14;
+  }
+
+  h2, .h2 {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-medium);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  h3, .h3 {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+
+  .tracking-label {
+    font-family: var(--font-primary);
+    font-size: 11px;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+}
+
+/* MASTER TACTILE GLASSMORPHISM MATERIAL SYSTEM WITH SHADOW & ELEVATION */
+
+/* Glass 01 — Floating Controls & Light Navbar Capsule */
+.glass-navbar {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.07),
+    0 4px 14px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  border-radius: var(--radius-pill);
+}
+
+.glass-capsule {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  border-radius: var(--radius-pill);
+}
+
+.glass-capsule-dark {
+  background: rgba(18, 20, 24, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-pill);
+}
+
+/* Glass 02 — Medium Floating Frosted Panels (Cards, Bento Services, Material Marquee Track) */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(28px) saturate(170%);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    0 28px 70px rgba(0, 0, 0, 0.08),
+    0 10px 24px rgba(0, 0, 0, 0.03),
+    inset 0 1.5px 0 rgba(255, 255, 255, 1);
+  border-radius: var(--radius-lg);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Glass Card Uplift Hover Effect */
+.glass-panel:hover,
+.glass-card-lift:hover {
+  transform: translateY(-6px) scale(1.005);
+  box-shadow: 
+    0 36px 90px rgba(184, 149, 99, 0.14),
+    0 16px 36px rgba(0, 0, 0, 0.07),
+    inset 0 1.5px 0 rgba(255, 255, 255, 1);
+  border-color: rgba(184, 149, 99, 0.45);
+}
+
+/* Glass 03 — Deep Frosted Glass Container & Modal */
+.glass-deep {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(36px) saturate(200%);
+  -webkit-backdrop-filter: blur(36px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 40px 100px rgba(0, 0, 0, 0.1),
+    0 12px 32px rgba(0, 0, 0, 0.04),
+    inset 0 1.5px 0 rgba(255, 255, 255, 1);
+  border-radius: var(--radius-xl);
+}
+
+/* Glass Dark Overlay Panel (For Hero & Footer Anchor) */
+.glass-dark {
+  background: rgba(18, 20, 24, 0.85);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.4),
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-lg);
+}
+
+/* Ambient Warm Architectural Lighting Glows */
+.ambient-glow-warm {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(184, 149, 99, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+  filter: blur(100px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F5F1E8;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(184, 149, 99, 0.45);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B89563;
+}
+
+/* SCROLL REVEAL & FLUID KEYFRAME ANIMATIONS */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translate3d(0, 32px, 0);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+.animate-fade-slide-up {
+  animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+/* Seamless Horizontal Marquee Animations */
+@keyframes marquee-left {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.marquee-track-left {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-left 45s linear infinite;
+}
+
+.marquee-track-right {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-right 45s linear infinite;
+}
+
+.marquee-track-left:hover,
+.marquee-track-right:hover {
+  animation-play-state: paused;
+}
+
+/* SMOOTH POP-IN & POP-OUT MODAL ANIMATIONS */
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+    filter: blur(10px);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.02) translateY(-2px);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+}
+
+@keyframes modalPopOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+    filter: blur(8px);
+  }
+}
+
+@keyframes backdropFadeIn {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(14px);
+  }
+}
+
+@keyframes backdropFadeOut {
+  0% {
+    opacity: 1;
+    backdrop-filter: blur(14px);
+  }
+  100% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+}
+
+.animate-modal-pop-in {
+  animation: modalPopIn 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-modal-pop-out {
+  animation: modalPopOut 0.38s cubic-bezier(0.32, 0, 0.67, 0) forwards;
+}
+
+.animate-backdrop-fade-in {
+  animation: backdropFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-backdrop-fade-out {
+  animation: backdropFadeOut 0.35s cubic-bezier(0.32, 0, 0.67, 0) forwards;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
