@@ -121,7 +121,9 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onSelectProject }) =
               >
                 <img
                   src={project.heroImage}
-                  alt={project.title}
+                  alt={`${project.title} - ${project.category} in ${project.location}`}
+                  loading="lazy"
+                  decoding="async"
                   onContextMenu={(e) => e.preventDefault()}
                   onDragStart={(e) => e.preventDefault()}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

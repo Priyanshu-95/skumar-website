@@ -74,6 +74,8 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         <img
           src={afterImage}
           alt={afterLabel}
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover"
         />
 
@@ -85,6 +87,8 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           <img
             src={beforeImage}
             alt={beforeLabel}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover max-w-none"
             style={{
               width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%',

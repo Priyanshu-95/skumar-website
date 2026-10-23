@@ -168,11 +168,14 @@ export const ContactPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="tracking-label text-[10px] text-[#333330] block">
+                    <label htmlFor="contact-full-name" className="tracking-label text-[10px] text-[#333330] block">
                       Full Name *
                     </label>
                     <input
+                      id="contact-full-name"
+                      name="name"
                       type="text"
+                      autoComplete="name"
                       required
                       placeholder="e.g. Rajesh Shah"
                       value={formData.name}
@@ -182,11 +185,14 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="tracking-label text-[10px] text-[#333330] block">
+                    <label htmlFor="contact-phone" className="tracking-label text-[10px] text-[#333330] block">
                       Phone / WhatsApp Number *
                     </label>
                     <input
+                      id="contact-phone"
+                      name="phone"
                       type="tel"
+                      autoComplete="tel"
                       required
                       placeholder="+91 98989 66648"
                       value={formData.phone}
@@ -198,11 +204,14 @@ export const ContactPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="tracking-label text-[10px] text-[#333330] block">
+                    <label htmlFor="contact-email" className="tracking-label text-[10px] text-[#333330] block">
                       Email Address
                     </label>
                     <input
+                      id="contact-email"
+                      name="email"
                       type="email"
+                      autoComplete="email"
                       placeholder="name@domain.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -211,10 +220,12 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="tracking-label text-[10px] text-[#333330] block">
+                    <label htmlFor="contact-project-type" className="tracking-label text-[10px] text-[#333330] block">
                       Service / Project Type *
                     </label>
                     <select
+                      id="contact-project-type"
+                      name="projectType"
                       value={formData.projectType}
                       onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                       className="w-full bg-white/90 border border-stone-300 rounded-xl px-4 py-3 text-xs text-[#171717] focus:outline-none focus:border-[#B89563] transition-all shadow-sm font-medium"
@@ -234,10 +245,12 @@ export const ContactPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="tracking-label text-[10px] text-[#333330] block">
+                    <label htmlFor="contact-location" className="tracking-label text-[10px] text-[#333330] block">
                       Site Location *
                     </label>
                     <select
+                      id="contact-location"
+                      name="location"
                       value={formData.location}
                       onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                       className="w-full bg-white/90 border border-stone-300 rounded-xl px-4 py-3 text-xs text-[#171717] focus:outline-none focus:border-[#B89563] transition-all shadow-sm"
@@ -250,10 +263,12 @@ export const ContactPage: React.FC = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="tracking-label text-[10px] text-[#333330] block">
+                    <label htmlFor="contact-budget" className="tracking-label text-[10px] text-[#333330] block">
                       Budget Range *
                     </label>
                     <select
+                      id="contact-budget"
+                      name="budget"
                       value={formData.budget}
                       onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
                       className="w-full bg-white/90 border border-stone-300 rounded-xl px-4 py-3 text-xs text-[#171717] focus:outline-none focus:border-[#B89563] transition-all shadow-sm font-medium"
@@ -268,10 +283,12 @@ export const ContactPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="tracking-label text-[10px] text-[#333330] block">
+                  <label htmlFor="contact-message" className="tracking-label text-[10px] text-[#333330] block">
                     Project Requirements / Vision
                   </label>
                   <textarea
+                    id="contact-message"
+                    name="message"
                     rows={4}
                     placeholder="Describe your design expectations, civil scope, or target possession date..."
                     value={formData.message}

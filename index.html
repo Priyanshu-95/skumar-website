@@ -7,14 +7,21 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO Meta Tags -->
+  <!-- SEO & Search Engine Indexing Directives -->
   <title>S Kumar Construction & Interior | Interior Design, Construction & Joinery Solutions</title>
   <meta name="description"
     content="S Kumar Construction & Interior provides comprehensive interior design, custom furniture & joinery, and turnkey civil construction across Ahmedabad, Gujarat, and Pan India." />
   <meta name="keywords"
     content="S Kumar Construction, Interior Designer Ahmedabad, Pan India Interior Design, Civil Construction Gujarat, Custom Furniture Ahmedabad, Turnkey Interior Contractor, 3 BHK Interior Design" />
   <meta name="author" content="S Kumar Construction & Interior" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://skumarinterior.com/" />
+
+  <!-- Local SEO Geo Meta Tags -->
+  <meta name="geo.region" content="IN-GJ" />
+  <meta name="geo.placename" content="Ahmedabad" />
+  <meta name="geo.position" content="23.0975;72.6598" />
+  <meta name="ICBM" content="23.0975, 72.6598" />
 
   <!-- Open Graph / Social Media Meta -->
   <meta property="og:type" content="website" />
@@ -23,7 +30,10 @@
     content="Turnkey interior design, custom joinery, and reliable civil construction solutions crafted to last across Gujarat & Pan India." />
   <meta property="og:url" content="https://skumarinterior.com/" />
   <meta property="og:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:site_name" content="S Kumar Construction & Interior" />
+  <meta property="og:locale" content="en_IN" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -31,31 +41,49 @@
   <meta name="twitter:description" content="Turnkey interior design, custom joinery, and reliable civil construction solutions crafted to last." />
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" />
 
-  <!-- Google Fonts -->
+  <!-- Resource Preconnects for Core Web Vitals (Google Fonts & CDN Assets) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- Structured Data (JSON-LD) for Local SEO -->
+  <!-- Verified Local SEO Structured Data (JSON-LD) -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "HomeAndConstructionBusiness",
+      "@type": ["HomeAndConstructionBusiness", "GeneralContractor"],
+      "@id": "https://skumarinterior.com/#localbusiness",
       "name": "S Kumar Construction & Interior",
+      "alternateName": "SKumar Construction & Interior",
       "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop",
+      "logo": "https://skumarinterior.com/skumar-logo.png",
       "description": "Comprehensive turnkey civil construction, Pan India interior design, modular joinery, and custom architectural solutions serving Ahmedabad, Gandhinagar, Gujarat, and Pan India.",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Office No 424, Devnandan Mall, Opp. Sanyas Ashram, Ashram Road, Ellisbridge",
+        "streetAddress": "414, Antilia Business Hub, S.P. Ring Road, Nana Chiloda Circle",
         "addressLocality": "Ahmedabad",
         "addressRegion": "Gujarat",
-        "postalCode": "380006",
+        "postalCode": "382330",
         "addressCountry": "IN"
       },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 23.0975,
+        "longitude": 72.6598
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "10:00",
+          "closes": "19:30"
+        }
+      ],
       "url": "https://skumarinterior.com",
       "telephone": "+91 98989 66648",
+      "email": "info@skumarinterior.com",
       "areaServed": ["Ahmedabad", "Gandhinagar", "Gujarat", "India"],
       "priceRange": "₹₹₹"
     }

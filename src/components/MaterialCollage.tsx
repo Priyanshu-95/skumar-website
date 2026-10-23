@@ -43,7 +43,9 @@ export const MaterialCollage: React.FC = () => {
                 >
                   <img
                     src={mat.image}
-                    alt={mat.name}
+                    alt={`${mat.name} - S Kumar Architectural Material Palette`}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className={`absolute inset-0 transition-opacity duration-300 ${

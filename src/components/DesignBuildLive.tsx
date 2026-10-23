@@ -140,7 +140,9 @@ export const DesignBuildLive: React.FC = () => {
               <img
                 key={stages[activeStage].id}
                 src={stages[activeStage].image}
-                alt={stages[activeStage].title}
+                alt={`${stages[activeStage].title} - S Kumar Architectural Stage`}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover animate-fade-in"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent pointer-events-none" />

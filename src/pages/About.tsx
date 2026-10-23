@@ -46,7 +46,11 @@ export const About: React.FC<AboutProps> = ({ onOpenEstimator }) => {
             <div className="lg:col-span-7 h-[420px] md:h-[520px] rounded-[36px] overflow-hidden border border-white relative shadow-xl bg-white">
               <img
                 src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop"
-                alt="S Kumar Studio Design Process"
+                alt="S Kumar Studio architectural design and joinery craftsmanship process in Ahmedabad"
+                loading="lazy"
+                decoding="async"
+                width={1600}
+                height={1067}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent" />

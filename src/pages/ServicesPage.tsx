@@ -73,7 +73,9 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onOpenEstimator }) =
                 }`}>
                   <img
                     src={service.image}
-                    alt={service.title}
+                    alt={`${service.title} - S Kumar Construction & Interior Ahmedabad`}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/50 via-transparent to-transparent" />

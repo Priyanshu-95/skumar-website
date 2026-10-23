@@ -32,6 +32,7 @@ export const QuickContactBar: React.FC<QuickContactBarProps> = ({ onOpenEstimato
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#F8F5EF]/95 backdrop-blur-2xl text-[#171717] border-t border-stone-300/80 grid grid-cols-3 divide-x divide-stone-300/60 shadow-2xl">
         <a
           href="tel:+919898966648"
+          aria-label="Call S Kumar Construction & Interior at +91 98989 66648"
           className="py-3.5 flex flex-col items-center justify-center gap-1 text-[10px] tracking-label text-[#171717] hover:text-[#B89563] transition-colors"
         >
           <Phone className="w-4 h-4 text-[#B89563]" />
@@ -41,6 +42,7 @@ export const QuickContactBar: React.FC<QuickContactBarProps> = ({ onOpenEstimato
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Chat on WhatsApp with S Kumar Studio"
           className="py-3.5 flex flex-col items-center justify-center gap-1 text-[10px] tracking-label text-[#171717] hover:text-[#25D366] transition-colors"
         >
           <MessageSquare className="w-4 h-4 text-[#25D366]" />
@@ -48,6 +50,7 @@ export const QuickContactBar: React.FC<QuickContactBarProps> = ({ onOpenEstimato
         </a>
         <button
           onClick={onOpenEstimator}
+          aria-label="Open Instant Project Cost Estimator"
           className="py-3.5 flex flex-col items-center justify-center gap-1 text-[10px] tracking-label text-[#B89563] font-bold hover:bg-stone-200/50 transition-colors focus:outline-none"
         >
           <Calculator className="w-4 h-4" />

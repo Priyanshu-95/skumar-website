@@ -39,7 +39,11 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop"
-            alt="S Kumar Construction & Interior"
+            alt="Luxury residential living space designed and constructed by S Kumar Construction & Interior in Ahmedabad"
+            width={2000}
+            height={1333}
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover filter brightness-[0.75] contrast-[1.1] animate-fade-in"
           />
           {/* Dark Shadow Gradient Overlay for High-Contrast Text Legibility */}
@@ -215,7 +219,11 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                 <div className="h-[420px] md:h-[500px] rounded-[36px] overflow-hidden border border-white shadow-xl relative glass-card-lift">
                   <img
                     src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1400&auto=format&fit=crop"
-                    alt="S Kumar Architectural Living Room"
+                    alt="Bespoke Burmese teak joinery and living room interior in Prahlad Nagar Ahmedabad"
+                    loading="lazy"
+                    decoding="async"
+                    width={1400}
+                    height={933}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent" />
@@ -303,7 +311,9 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                 <img
                   key={currentService.id}
                   src={currentService.image}
-                  alt={currentService.title}
+                  alt={`${currentService.title} - S Kumar Construction & Interior Ahmedabad`}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover animate-fade-in"
                 />
                 <div className="absolute top-4 left-4 bg-[#B89563] text-white px-3.5 py-1 rounded-full text-[9px] uppercase font-semibold tracking-wider shadow-sm">
@@ -385,7 +395,9 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                 >
                   <img
                     src={project.heroImage}
-                    alt={project.title}
+                    alt={`${project.title} - ${project.category} in ${project.location}`}
+                    loading="lazy"
+                    decoding="async"
                     onContextMenu={(e) => e.preventDefault()}
                     onDragStart={(e) => e.preventDefault()}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"

@@ -190,7 +190,9 @@ export const ProjectEstimatorModal: React.FC<ProjectEstimatorModalProps> = ({ is
           <div className="hidden lg:block lg:col-span-5 relative overflow-hidden bg-[#F5F1E8]">
             <img
               src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
-              alt="S Kumar Architectural Interior Studio"
+              alt="S Kumar Architectural Interior Studio Ahmedabad"
+              loading="lazy"
+              decoding="async"
               className={`w-full h-full object-cover transition-transform duration-1000 ease-out ${
                 !isExiting ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
               }`}

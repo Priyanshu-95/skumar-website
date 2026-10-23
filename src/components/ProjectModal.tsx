@@ -86,7 +86,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
           >
             <img
               src={project.heroImage}
-              alt={project.title}
+              alt={`${project.title} - ${project.category} in ${project.location}`}
+              loading="lazy"
+              decoding="async"
               onDragStart={(e) => e.preventDefault()}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
@@ -216,7 +218,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
                   >
                     <img
                       src={img}
-                      alt={`${project.title} photograph ${idx + 1}`}
+                      alt={`${project.title} - Interior Detail Photograph ${idx + 1}`}
+                      loading="lazy"
+                      decoding="async"
                       onDragStart={(e) => e.preventDefault()}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -239,7 +243,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose, on
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {project.materialPalette.map((mat, idx) => (
                     <div key={idx} className="bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm">
-                      <img src={mat.image} alt={mat.name} className="h-32 w-full object-cover" />
+                      <img src={mat.image} alt={`${mat.name} - ${project.title} Material`} loading="lazy" decoding="async" className="h-32 w-full object-cover" />
                       <div className="p-4 space-y-1">
                         <span className="font-sans text-base font-semibold block text-[#171717]">{mat.name}</span>
                         <p className="text-xs text-[#333330] font-light">{mat.description}</p>

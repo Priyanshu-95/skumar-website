@@ -60,28 +60,39 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenE
           <div className="flex items-center justify-between gap-4">
             
             {/* PROMINENT BRAND LOGO — ENLARGED & RECOGNIZABLE */}
-            <button
-              onClick={() => handleNavClick('home')}
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('home');
+              }}
               className="flex items-center gap-3 group text-left focus:outline-none shrink-0"
               aria-label="S Kumar Construction & Interior Home"
             >
               <div className="p-0.5 transition-transform duration-300 group-hover:scale-105">
                 <img
                   src="/skumar-logo.png"
-                  alt="S Kumar Construction & Interior"
+                  alt="S Kumar Construction & Interior Logo"
+                  width={180}
+                  height={64}
                   className="h-11 sm:h-13 md:h-16 lg:h-18 w-auto object-contain max-h-[64px] drop-shadow-sm transition-all duration-300"
                 />
               </div>
-            </button>
+            </a>
 
             {/* DESKTOP LIGHT GLASS NAVIGATION LINKS */}
-            <nav className="hidden md:flex items-center gap-1.5">
+            <nav className="hidden md:flex items-center gap-1.5" aria-label="Main Navigation">
               {navItems.map((item) => {
                 const isActive = activeTab === item.id;
+                const href = item.id === 'home' ? '/' : `/?tab=${item.id}`;
                 return (
-                  <button
+                  <a
                     key={item.id}
-                    onClick={() => handleNavClick(item.id)}
+                    href={href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(item.id);
+                    }}
                     className={`tracking-label text-[11px] font-bold transition-all duration-300 px-4 py-2 rounded-full focus:outline-none ${
                       isActive
                         ? 'bg-[#B89563]/15 text-[#B89563] border border-[#B89563]/40 shadow-sm'
@@ -89,7 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenE
                     }`}
                   >
                     {item.label}
-                  </button>
+                  </a>
                 );
               })}
             </nav>
@@ -98,6 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenE
             <div className="hidden md:flex items-center gap-5">
               <a
                 href="tel:+919898966648"
+                aria-label="Call S Kumar Studio at +91 98989 66648"
                 className="text-[11px] font-mono tracking-wider flex items-center gap-1.5 text-[#171717]/80 hover:text-[#B89563] transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-[#B89563]" />
@@ -116,7 +128,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenE
             {/* MOBILE MENU TRIGGER */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle Navigation Menu"
+              aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+              aria-expanded={mobileMenuOpen}
               className="md:hidden p-2 text-[#171717] rounded-full focus:outline-none"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -139,17 +152,24 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenE
               </span>
             </div>
 
-            <nav className="flex flex-col gap-4">
-              {navItems.map((item, idx) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className="text-left font-sans text-2xl font-medium tracking-tight flex items-center justify-between py-2 border-b border-black/5 text-[#171717] hover:text-[#B89563] transition-colors"
-                >
-                  <span>{item.label}</span>
-                  <span className="font-mono text-xs text-[#B89563]">0{idx + 1}</span>
-                </button>
-              ))}
+            <nav className="flex flex-col gap-4" aria-label="Mobile Navigation">
+              {navItems.map((item, idx) => {
+                const href = item.id === 'home' ? '/' : `/?tab=${item.id}`;
+                return (
+                  <a
+                    key={item.id}
+                    href={href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(item.id);
+                    }}
+                    className="text-left font-sans text-2xl font-medium tracking-tight flex items-center justify-between py-2 border-b border-black/5 text-[#171717] hover:text-[#B89563] transition-colors"
+                  >
+                    <span>{item.label}</span>
+                    <span className="font-mono text-xs text-[#B89563]">0{idx + 1}</span>
+                  </a>
+                );
+              })}
             </nav>
           </div>
 

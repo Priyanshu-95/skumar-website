@@ -52,7 +52,9 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
               <div className="p-1 rounded-md inline-block">
                 <img
                   src="/skumar-logo-white.png"
-                  alt="S Kumar Construction & Interior"
+                  alt="S Kumar Construction & Interior Logo"
+                  width={160}
+                  height={60}
                   className="h-14 sm:h-16 w-auto object-contain transition-transform hover:scale-105 drop-shadow-sm"
                 />
               </div>
@@ -78,13 +80,17 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
                   { id: 'contact', label: 'Contact Studio' }
                 ].map((item) => (
                   <li key={item.id}>
-                    <button
-                      onClick={() => scrollToTop(item.id)}
+                    <a
+                      href={item.id === 'home' ? '/' : `/?tab=${item.id}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToTop(item.id);
+                      }}
                       className="text-stone-200 hover:text-[#B89563] transition-colors flex items-center gap-2 group text-left focus:outline-none"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-[#B89563] opacity-0 group-hover:opacity-100 transition-opacity" />
                       <span>{item.label}</span>
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -145,12 +151,28 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenEstimator })
             </div>
 
             <div className="flex items-center gap-5 font-normal">
-              <button onClick={() => setActiveTab('privacy')} className="hover:text-white transition-colors cursor-pointer text-left">
+              <a
+                href="/?tab=privacy"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('privacy');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="hover:text-white transition-colors cursor-pointer text-left"
+              >
                 Privacy Policy
-              </button>
-              <button onClick={() => setActiveTab('terms')} className="hover:text-white transition-colors cursor-pointer text-left">
+              </a>
+              <a
+                href="/?tab=terms"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('terms');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="hover:text-white transition-colors cursor-pointer text-left"
+              >
                 Terms and Conditions
-              </button>
+              </a>
             </div>
 
             {/* Social Links with Glowing Dark Glass Capsules & SVG Icons */}
