@@ -16,12 +16,16 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ setActiveT
       {/* Header */}
       <section className="max-w-4xl mx-auto px-6 md:px-12 relative z-10 space-y-5">
         {setActiveTab && (
-          <button
-            onClick={() => setActiveTab('home')}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab('home');
+            }}
             className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-[#B89563] hover:text-[#171717] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
-          </button>
+          </a>
         )}
 
         <div className="glass-capsule inline-flex items-center gap-2.5 px-4 py-1.5 border border-white bg-white/90 shadow-sm">

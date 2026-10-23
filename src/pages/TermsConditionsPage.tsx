@@ -15,12 +15,16 @@ export const TermsConditionsPage: React.FC<TermsConditionsPageProps> = ({ setAct
       <div className="max-w-4xl mx-auto px-6 md:px-12 relative z-10 space-y-12">
         {/* Back Link */}
         {setActiveTab && (
-          <button
-            onClick={() => setActiveTab('home')}
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              setActiveTab('home');
+            }}
             className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-[#B89563] hover:text-[#171717] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Home
-          </button>
+          </a>
         )}
 
         {/* Page Header */}

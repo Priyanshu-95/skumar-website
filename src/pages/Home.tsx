@@ -98,12 +98,16 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                   <ArrowUpRight className="w-4 h-4" />
                 </button>
 
-                <button
-                  onClick={() => setActiveTab('work')}
+                <a
+                  href="/?tab=work"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveTab('work');
+                  }}
                   className="w-full sm:w-auto glass-capsule-dark border border-white/30 text-white hover:bg-white hover:text-[#171717] transition-all duration-300 px-7 py-4 text-xs tracking-widest uppercase font-bold flex items-center justify-center gap-2"
                 >
                   <span>EXPLORE WORK</span>
-                </button>
+                </a>
               </div>
 
             </div>
@@ -204,13 +208,17 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                 </div>
 
                 <div className="pt-2">
-                  <button
-                    onClick={() => setActiveTab('about')}
+                  <a
+                    href="/?tab=about"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveTab('about');
+                    }}
                     className="tracking-label text-xs text-[#B89563] hover:text-[#171717] transition-colors flex items-center gap-2 group font-semibold"
                   >
                     <span>Discover More About S Kumar Studio</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </button>
+                  </a>
                 </div>
               </div>
 
@@ -347,13 +355,17 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                 </ul>
               </div>
 
-              <button
-                onClick={() => setActiveTab('services')}
+              <a
+                href="/?tab=services"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('services');
+                }}
                 className="w-full py-3.5 rounded-full bg-stone-100 hover:bg-[#B89563] hover:text-white border border-stone-300/80 text-[#171717] transition-all duration-300 tracking-label text-[10px] flex items-center justify-center gap-2 font-semibold shadow-sm"
               >
                 <span>VIEW FULL SERVICE SCOPE</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -373,13 +385,17 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                   Spaces We've Shaped
                 </h2>
               </div>
-              <button
-                onClick={() => setActiveTab('work')}
+              <a
+                href="/?tab=work"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('work');
+                }}
                 className="tracking-label text-xs text-[#B89563] hover:text-[#171717] transition-colors flex items-center gap-2 group font-semibold"
               >
                 <span>View All Projects Archive</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </button>
+              </a>
             </div>
           </ScrollReveal>
 
@@ -691,13 +707,17 @@ export const Home: React.FC<HomeProps> = ({ setActiveTab, onSelectProject, onOpe
                   Let's Create Your Space.
                 </h2>
               </div>
-              <button
-                onClick={() => setActiveTab('contact')}
+              <a
+                href="/?tab=contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveTab('contact');
+                }}
                 className="tracking-label text-xs font-semibold text-[#B89563] hover:text-[#171717] transition-colors flex items-center gap-2 group"
               >
-                <span>Full Contact & Form</span>
+                <span>Full Contact & Studio Enquiry</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </button>
+              </a>
             </div>
           </ScrollReveal>
 
