@@ -7,36 +7,22 @@ import {
   normalizeResponse
 } from './_security.js';
 
-interface ProjectMetadata {
-  id: string;
-  title: string;
-  category: string;
-  filterCategory: string;
-  typeLabel?: string;
-  location: string;
-  year: string;
-  areaSqFt: string;
-  heroImage: string;
-  gallery: string[];
-  [key: string]: any;
-}
-
 const GITHUB_REPO = process.env.GITHUB_REPO || 'Priyanshu-95/skumar-website';
 const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 // Local paths for development fallback
-const LOCAL_PROJECTS_JSON_PATH = path.join(process.cwd(), 'src', 'data', 'projects.json');
-const LOCAL_PUBLIC_DIR = path.join(process.cwd(), 'public');
+const LOCAL_GALLERY_JSON_PATH = path.join(process.cwd(), 'src', 'data', 'gallery.json');
+const LOCAL_GALLERY_DIR = path.join(process.cwd(), 'public', 'projects', 'gallery');
 
 /**
- * Load project metadata either from local disk or GitHub repository
+ * Load gallery images list from GitHub repository or local disk
  */
-async function loadProjectsMetadata(): Promise<{ projects: ProjectMetadata[]; sha?: string }> {
+async function loadGalleryImages(): Promise<{ images: string[]; sha?: string }> {
   if (GITHUB_TOKEN) {
     try {
       const res = await fetch(
-        `https://api.github.com/repos/${GITHUB_REPO}/contents/src/data/projects.json?ref=${GITHUB_BRANCH}`,
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/src/data/gallery.json?ref=${GITHUB_BRANCH}`,
         {
           headers: {
             Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -49,41 +35,40 @@ async function loadProjectsMetadata(): Promise<{ projects: ProjectMetadata[]; sh
         const data = await res.json();
         const contentStr = Buffer.from(data.content, 'base64').toString('utf8');
         return {
-          projects: JSON.parse(contentStr),
+          images: JSON.parse(contentStr),
           sha: data.sha
         };
       }
     } catch (err) {
-      console.warn('Failed to fetch projects.json from GitHub, falling back to local file:', err);
+      console.warn('Failed to fetch gallery.json from GitHub, falling back to local file:', err);
     }
   }
 
   // Fallback to local filesystem
-  if (fs.existsSync(LOCAL_PROJECTS_JSON_PATH)) {
-    const raw = fs.readFileSync(LOCAL_PROJECTS_JSON_PATH, 'utf8');
-    return { projects: JSON.parse(raw) };
+  if (fs.existsSync(LOCAL_GALLERY_JSON_PATH)) {
+    const raw = fs.readFileSync(LOCAL_GALLERY_JSON_PATH, 'utf8');
+    return { images: JSON.parse(raw) };
   }
 
-  return { projects: [] };
+  return { images: [] };
 }
 
 /**
- * Save project metadata back to GitHub or local disk
+ * Save gallery images list back to GitHub or local disk
  */
-async function saveProjectsMetadata(
-  projects: ProjectMetadata[],
+async function saveGalleryImages(
+  images: string[],
   commitMessage: string,
   existingSha?: string
 ): Promise<{ success: boolean; error?: string }> {
-  const contentString = JSON.stringify(projects, null, 2);
+  const contentString = JSON.stringify(images, null, 2);
 
   if (GITHUB_TOKEN) {
     try {
-      // If we don't have SHA, fetch latest SHA
       let sha = existingSha;
       if (!sha) {
         const getRes = await fetch(
-          `https://api.github.com/repos/${GITHUB_REPO}/contents/src/data/projects.json?ref=${GITHUB_BRANCH}`,
+          `https://api.github.com/repos/${GITHUB_REPO}/contents/src/data/gallery.json?ref=${GITHUB_BRANCH}`,
           {
             headers: {
               Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -99,7 +84,7 @@ async function saveProjectsMetadata(
       }
 
       const putRes = await fetch(
-        `https://api.github.com/repos/${GITHUB_REPO}/contents/src/data/projects.json`,
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/src/data/gallery.json`,
         {
           method: 'PUT',
           headers: {
@@ -119,18 +104,18 @@ async function saveProjectsMetadata(
 
       if (!putRes.ok) {
         const errData = await putRes.json();
-        return { success: false, error: errData.message || 'GitHub API error saving metadata' };
+        return { success: false, error: errData.message || 'GitHub API error saving gallery metadata' };
       }
 
       return { success: true };
     } catch (err: any) {
-      return { success: false, error: err.message || 'Network error updating GitHub metadata' };
+      return { success: false, error: err.message || 'Network error updating GitHub gallery metadata' };
     }
   }
 
   // Local filesystem write
   try {
-    fs.writeFileSync(LOCAL_PROJECTS_JSON_PATH, contentString, 'utf8');
+    fs.writeFileSync(LOCAL_GALLERY_JSON_PATH, contentString, 'utf8');
     return { success: true };
   } catch (err: any) {
     return { success: false, error: err.message || 'Local filesystem write error' };
@@ -138,36 +123,17 @@ async function saveProjectsMetadata(
 }
 
 /**
- * Commit or write an image file
+ * Commit image file to GitHub or local disk
  */
 async function commitImageFile(
-  projectId: string,
   filename: string,
   fileBase64: string
 ): Promise<{ success: boolean; imagePath?: string; error?: string }> {
-  const repoFilePath = `public/projects/${projectId}/${filename}`;
-  const publicImagePath = `/projects/${projectId}/${filename}`;
+  const repoFilePath = `public/projects/gallery/${filename}`;
+  const publicImagePath = `/projects/gallery/${filename}`;
 
   if (GITHUB_TOKEN) {
     try {
-      // Check if file already exists to prevent silent overwrite
-      const checkRes = await fetch(
-        `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoFilePath}?ref=${GITHUB_BRANCH}`,
-        {
-          headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
-            Accept: 'application/vnd.github+json',
-            'User-Agent': 'skumar-website-gallery-manager'
-          }
-        }
-      );
-
-      let sha: string | undefined;
-      if (checkRes.ok) {
-        const existingData = await checkRes.json();
-        sha = existingData.sha;
-      }
-
       const putRes = await fetch(
         `https://api.github.com/repos/${GITHUB_REPO}/contents/${repoFilePath}`,
         {
@@ -179,9 +145,8 @@ async function commitImageFile(
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: `Add project image ${filename} to ${projectId}`,
+            message: `Upload showcase photo: ${filename}`,
             content: fileBase64,
-            sha, // If existing, updates with sha; if new, omitted
             branch: GITHUB_BRANCH
           })
         }
@@ -200,11 +165,10 @@ async function commitImageFile(
 
   // Local fallback
   try {
-    const targetDir = path.join(LOCAL_PUBLIC_DIR, 'projects', projectId);
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir, { recursive: true });
+    if (!fs.existsSync(LOCAL_GALLERY_DIR)) {
+      fs.mkdirSync(LOCAL_GALLERY_DIR, { recursive: true });
     }
-    const targetPath = path.join(targetDir, filename);
+    const targetPath = path.join(LOCAL_GALLERY_DIR, filename);
     const buffer = Buffer.from(fileBase64, 'base64');
     fs.writeFileSync(targetPath, buffer);
     return { success: true, imagePath: publicImagePath };
@@ -217,7 +181,7 @@ export default async function handler(req: any, res: any) {
   normalizeResponse(res);
   res.setHeader('Content-Type', 'application/json');
 
-  // 1. Rigorous session verification for every action
+  // 1. Session check on EVERY operation
   const cookies = parseCookies(req);
   const sessionToken = cookies['gallery_session'];
   if (!verifySessionToken(sessionToken)) {
@@ -229,42 +193,35 @@ export default async function handler(req: any, res: any) {
 
   const method = req.method?.toUpperCase();
 
-  // 2. GET: Retrieve list of projects, galleries, and deployment status
+  // 2. GET: Retrieve list of all gallery photos
   if (method === 'GET') {
     try {
-      const { projects } = await loadProjectsMetadata();
+      const { images } = await loadGalleryImages();
       return res.status(200).json({
         success: true,
-        projects: projects.map((p) => ({
-          id: p.id,
-          title: p.title,
-          category: p.category,
-          filterCategory: p.filterCategory,
-          heroImage: p.heroImage,
-          gallery: p.gallery || []
-        })),
+        images,
         storageMode: GITHUB_TOKEN ? 'github' : 'local',
         repo: GITHUB_REPO,
         branch: GITHUB_BRANCH
       });
-    } catch (_err) {
+    } catch {
       return res.status(500).json({
         success: false,
-        error: 'Failed to retrieve project gallery list'
+        error: 'Failed to retrieve gallery photos'
       });
     }
   }
 
-  // 3. POST: Upload & Add new image to a project gallery
+  // 3. POST: Upload & Add new photo to the unified showcase gallery
   if (method === 'POST') {
     try {
       const body = await parseJsonBody(req);
-      const { projectId, filename, fileData, mimeType } = body;
+      const { filename, fileData, mimeType } = body;
 
-      if (!projectId || !filename || !fileData) {
+      if (!filename || !fileData) {
         return res.status(400).json({
           success: false,
-          error: 'Missing required parameters (projectId, filename, fileData)'
+          error: 'Missing required parameters (filename, fileData)'
         });
       }
 
@@ -277,20 +234,17 @@ export default async function handler(req: any, res: any) {
         });
       }
 
-      // Sanitize filename to prevent directory traversal
+      // Sanitize filename
       const rawExt = path.extname(filename).toLowerCase();
       const validExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
       const ext = validExtensions.includes(rawExt) ? rawExt : '.webp';
       const baseName = path.basename(filename, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-      
-      // Clean unique filename (never overwrite silently)
-      const timestamp = Date.now();
-      const cleanFilename = `${baseName}_${timestamp}${ext}`;
+      const cleanFilename = `showcase_${Date.now()}_${baseName}${ext}`;
 
       // Clean base64 string
       const base64Data = fileData.replace(/^data:image\/[a-zA-Z]+;base64,/, '');
 
-      // Check file size (max 10MB in bytes = ~14MB base64)
+      // Max 10MB limit
       if (base64Data.length > 14 * 1024 * 1024) {
         return res.status(400).json({
           success: false,
@@ -298,18 +252,8 @@ export default async function handler(req: any, res: any) {
         });
       }
 
-      // Verify that project exists
-      const { projects, sha } = await loadProjectsMetadata();
-      const projectIndex = projects.findIndex((p) => p.id === projectId);
-      if (projectIndex === -1) {
-        return res.status(404).json({
-          success: false,
-          error: `Project with ID "${projectId}" not found.`
-        });
-      }
-
       // 1. Commit image file
-      const commitRes = await commitImageFile(projectId, cleanFilename, base64Data);
+      const commitRes = await commitImageFile(cleanFilename, base64Data);
       if (!commitRes.success || !commitRes.imagePath) {
         return res.status(500).json({
           success: false,
@@ -317,97 +261,86 @@ export default async function handler(req: any, res: any) {
         });
       }
 
-      // 2. Append new image path to project gallery metadata
-      if (!Array.isArray(projects[projectIndex].gallery)) {
-        projects[projectIndex].gallery = [];
-      }
-      projects[projectIndex].gallery.push(commitRes.imagePath);
+      // 2. Add new photo to gallery list (at the beginning so latest uploads appear first)
+      const { images, sha } = await loadGalleryImages();
+      const updatedImages = [commitRes.imagePath, ...images];
 
-      // 3. Save updated metadata
-      const metaRes = await saveProjectsMetadata(
-        projects,
-        `Add gallery photo ${cleanFilename} to ${projectId}`,
+      // 3. Save updated gallery.json
+      const metaRes = await saveGalleryImages(
+        updatedImages,
+        `Add showcase photo ${cleanFilename}`,
         sha
       );
 
       if (!metaRes.success) {
         return res.status(500).json({
           success: false,
-          error: metaRes.error || 'Failed to update project gallery metadata.'
+          error: metaRes.error || 'Failed to update gallery list.'
         });
       }
 
       return res.status(200).json({
         success: true,
-        message: 'Image successfully uploaded and added to project gallery.',
+        message: 'Photo uploaded and added to showcase gallery successfully.',
         imagePath: commitRes.imagePath,
-        gallery: projects[projectIndex].gallery,
+        images: updatedImages,
         mode: GITHUB_TOKEN ? 'github' : 'local'
       });
     } catch (err: any) {
       return res.status(500).json({
         success: false,
-        error: err.message || 'Internal server error during image upload'
+        error: err.message || 'Internal server error during upload'
       });
     }
   }
 
-  // 4. DELETE: Remove image from project gallery
+  // 4. DELETE: Remove photo from the showcase gallery
   if (method === 'DELETE') {
     try {
       const body = await parseJsonBody(req);
-      const { projectId, imagePath } = body;
+      const { imagePath } = body;
 
-      if (!projectId || !imagePath) {
+      if (!imagePath) {
         return res.status(400).json({
           success: false,
-          error: 'Missing required parameters (projectId, imagePath)'
+          error: 'Missing required parameter: imagePath'
         });
       }
 
-      const { projects, sha } = await loadProjectsMetadata();
-      const projectIndex = projects.findIndex((p) => p.id === projectId);
-      if (projectIndex === -1) {
+      const { images, sha } = await loadGalleryImages();
+      if (!images.includes(imagePath)) {
         return res.status(404).json({
           success: false,
-          error: `Project with ID "${projectId}" not found.`
+          error: 'The specified image was not found in the gallery.'
         });
       }
 
-      const project = projects[projectIndex];
-      if (!Array.isArray(project.gallery) || !project.gallery.includes(imagePath)) {
-        return res.status(404).json({
-          success: false,
-          error: 'The specified image was not found in this project gallery.'
-        });
-      }
+      // Filter out image
+      const updatedImages = images.filter((img) => img !== imagePath);
 
-      // Remove image reference from gallery
-      project.gallery = project.gallery.filter((img) => img !== imagePath);
-
-      // Save updated metadata
-      const metaRes = await saveProjectsMetadata(
-        projects,
-        `Remove gallery photo ${path.basename(imagePath)} from ${projectId}`,
+      // Save updated gallery.json
+      const metaRes = await saveGalleryImages(
+        updatedImages,
+        `Remove showcase photo ${path.basename(imagePath)}`,
         sha
       );
 
       if (!metaRes.success) {
         return res.status(500).json({
           success: false,
-          error: metaRes.error || 'Failed to update project gallery metadata'
+          error: metaRes.error || 'Failed to update gallery list.'
         });
       }
 
       return res.status(200).json({
         success: true,
-        message: 'Image removed from gallery successfully.',
-        gallery: project.gallery
+        message: 'Photo removed from gallery successfully.',
+        images: updatedImages
       });
     } catch (err: any) {
       return res.status(500).json({
         success: false,
-        error: err.message || 'Internal server error during image removal'
+        error: err.message || 'Internal server error during photo removal'
       });
     }
   }

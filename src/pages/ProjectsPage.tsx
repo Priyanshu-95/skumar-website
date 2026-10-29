@@ -1,85 +1,88 @@
-import React, { useState } from 'react';
-import { PROJECTS } from '../data/projects';
-import type { Project, CategoryFilter } from '../types';
-import { Search, ArrowUpRight, Filter, Sparkles, Images } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import initialGallery from '../data/gallery.json';
+import { Sparkles, Images, X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { GalleryManagerModal } from '../components/GalleryManagerModal';
 
 interface ProjectsPageProps {
-  onSelectProject: (project: Project) => void;
+  onSelectProject?: (project: any) => void;
 }
 
-export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onSelectProject }) => {
-  const [activeFilter, setActiveFilter] = useState<CategoryFilter>('All');
-  const [searchQuery, setSearchQuery] = useState('');
+export const ProjectsPage: React.FC<ProjectsPageProps> = () => {
   const [isManagerOpen, setIsManagerOpen] = useState(false);
-  const [projectsList, setProjectsList] = useState<Project[]>(PROJECTS);
+  const [images, setImages] = useState<string[]>(initialGallery);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const refreshGallery = async () => {
+  // Dynamically refresh gallery from server
+  const refreshGallery = useCallback(async () => {
     try {
       const res = await fetch('/api/gallery', { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
-        if (data.projects) {
-          setProjectsList((prev) =>
-            prev.map((p) => {
-              const updated = data.projects.find((u: any) => u.id === p.id);
-              return updated ? { ...p, gallery: updated.gallery } : p;
-            })
-          );
+        if (Array.isArray(data.images) && data.images.length > 0) {
+          setImages(data.images);
         }
       }
     } catch (err) {
       console.warn('Could not refresh gallery dynamically:', err);
     }
-  };
+  }, []);
 
-  const filters: CategoryFilter[] = [
-    'All',
-    'Wooden Work',
-    'Residential',
-    'Bungalow / Villa',
-    'Interior Design',
-    'Commercial',
-    'Construction',
-    'PVC Work',
-    '3D Visualization'
-  ];
+  // Keyboard navigation for lightbox
+  const handleNextLightbox = useCallback(() => {
+    if (lightboxIndex === null) return;
+    setLightboxIndex((prev) => ((prev ?? 0) + 1) % images.length);
+  }, [lightboxIndex, images.length]);
 
-  const filteredProjects = projectsList.filter((p) => {
-    const matchesFilter =
-      activeFilter === 'All' ||
-      p.filterCategory === activeFilter ||
-      (activeFilter === 'Wooden Work' && (p.filterCategory === 'Wooden Work' || p.category.toLowerCase().includes('wood') || p.category.toLowerCase().includes('teak') || p.scope.some(s => s.toLowerCase().includes('teak') || s.toLowerCase().includes('wood')))) ||
-      (activeFilter === 'Construction' && (p.filterCategory === 'Construction' || p.category.toLowerCase().includes('architecture') || p.scope.some(s => s.toLowerCase().includes('civil')))) ||
-      (activeFilter === 'Interior Design' && (p.filterCategory === 'Interior Design' || p.category.toLowerCase().includes('interior')));
-    const matchesSearch =
-      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFilter && matchesSearch;
-  });
+  const handlePrevLightbox = useCallback(() => {
+    if (lightboxIndex === null) return;
+    setLightboxIndex((prev) => ((prev ?? 0) - 1 + images.length) % images.length);
+  }, [lightboxIndex, images.length]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (lightboxIndex !== null) {
+        if (e.key === 'ArrowRight') handleNextLightbox();
+        if (e.key === 'ArrowLeft') handlePrevLightbox();
+        if (e.key === 'Escape') setLightboxIndex(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxIndex, handleNextLightbox, handlePrevLightbox]);
+
+  // Lock body scroll when lightbox open
+  useEffect(() => {
+    if (lightboxIndex !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [lightboxIndex]);
 
   return (
-    <div className="pt-32 sm:pt-36 md:pt-40 lg:pt-44 pb-20 bg-[#F5F1E8] text-[#171717] space-y-16 relative overflow-hidden">
+    <div className="pt-32 sm:pt-36 md:pt-40 lg:pt-44 pb-24 bg-[#F5F1E8] text-[#171717] space-y-12 relative overflow-hidden">
       {/* Ambient Lighting Glow Blooms */}
       <div className="ambient-glow-warm top-20 right-10" />
       <div className="ambient-glow-warm top-1/2 -left-32" />
 
-      {/* 1. HEADER & SEARCH / FILTERS */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 space-y-6">
+      {/* 1. HEADER SECTION (NO SOCIETY NAMES, CLEAN & EDITORIAL) */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 space-y-5">
         <div className="flex items-center justify-between">
           <div className="glass-capsule inline-flex items-center gap-3 px-4 py-2 border border-white bg-white/90 shadow-md">
             <Sparkles className="w-3.5 h-3.5 text-[#967546]" />
             <span className="tracking-label text-[10px] text-[#967546] font-bold">
-              ARCHITECTURAL PORTFOLIO ARCHIVE
+              PORTFOLIO SHOWCASE GALLERY
             </span>
           </div>
 
           {/* Subtle unobtrusive Add Images control */}
           <button
             onClick={() => setIsManagerOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] tracking-label font-medium text-stone-400 hover:text-[#967546] hover:bg-white/80 rounded-full transition-all focus:outline-none border border-transparent hover:border-stone-200"
-            title="Manage project gallery"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-[10px] tracking-label font-medium text-stone-500 hover:text-[#967546] hover:bg-white/80 rounded-full transition-all focus:outline-none border border-transparent hover:border-stone-200"
+            title="Manage gallery"
             aria-label="Add Images"
           >
             <Images className="w-3.5 h-3.5" />
@@ -88,124 +91,115 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onSelectProject }) =
         </div>
 
         <h1 className="font-sans text-3xl sm:text-5xl lg:text-6xl font-medium leading-[1.14] tracking-tight text-[#171717] max-w-4xl">
-          Selected Projects & <br />
-          <span className="text-[#B89563] font-light">Architectural Spaces.</span>
+          Selected Works & <br />
+          <span className="text-[#B89563] font-light">Crafted Spaces.</span>
         </h1>
 
         <p className="text-sm sm:text-base text-[#333330] max-w-2xl leading-relaxed font-light">
-          Explore completed residential apartments, luxury villas, commercial offices, custom joinery, and specialized interior fit-outs executed by S Kumar across Gujarat and India.
+          A visual collection of bespoke residential bungalows, luxury villa interiors, commercial spaces, and turnkey craftsmanship executed by S Kumar.
         </p>
 
-        {/* Filter Controls & Search */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-6 border-b border-stone-300/70 pb-6">
-          <div className="flex flex-wrap items-center gap-2">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`tracking-label text-[10px] font-bold px-4 py-2.5 rounded-full transition-all duration-300 focus:outline-none ${
-                  activeFilter === filter
-                    ? 'bg-[#B89563] text-white shadow-md scale-105'
-                    : 'bg-white border border-stone-300 text-[#171717] hover:bg-[#171717] hover:text-white shadow-sm'
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
-
-          <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 text-[#B89563] absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              placeholder="Search by area or project..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full glass-capsule border border-stone-300 bg-white/90 pl-10 pr-4 py-2.5 text-xs text-[#171717] placeholder-stone-400 focus:outline-none focus:border-[#B89563] shadow-inner"
-            />
-          </div>
+        <div className="flex items-center gap-3 pt-2 text-xs text-stone-500 font-mono">
+          <span className="px-3 py-1 bg-white/80 rounded-full border border-stone-200 shadow-sm">
+            {images.length} Curated Photographs
+          </span>
+          <span>• Click any photo to expand full view</span>
         </div>
       </section>
 
-      {/* 2. LIGHT FROSTED GLASS MASONRY GRID */}
+      {/* 2. DYNAMIC ASYMMETRICAL EDITORIAL MASONRY SHOWCASE (NOT UNIFORM SQUARES) */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {filteredProjects.length === 0 ? (
-          <div className="glass-panel py-20 text-center space-y-4 rounded-[36px] border border-white bg-white/80">
-            <Filter className="w-8 h-8 text-[#B89563] mx-auto" />
-            <h3 className="font-sans text-2xl font-bold text-[#171717]">No projects match your search filter</h3>
-            <p className="text-xs text-[#333330]">Try resetting search keywords or selecting another category.</p>
-            <button
-              onClick={() => {
-                setActiveFilter('All');
-                setSearchQuery('');
-              }}
-              className="px-6 py-2.5 bg-[#B89563] text-white text-xs tracking-label font-bold rounded-full shadow-md"
+        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
+          {images.map((src, idx) => (
+            <div
+              key={idx}
+              onClick={() => setLightboxIndex(idx)}
+              className="break-inside-avoid group relative overflow-hidden rounded-[26px] bg-white border border-white/90 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-1.5"
             >
-              RESET FILTERS
+              <img
+                src={src}
+                alt={`S Kumar Architectural Showcase ${idx + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+              />
+
+              {/* Refined Frosted Glass Hover Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono tracking-wider text-white/90 uppercase">
+                    Photo #{idx + 1}
+                  </span>
+                  <div className="glass-capsule px-3 py-1 text-[10px] tracking-label text-white bg-black/40 border border-white/30 backdrop-blur-md flex items-center gap-1.5">
+                    <Maximize2 className="w-3 h-3 text-[#B89563]" />
+                    <span>Expand</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. FULLSCREEN CINEMATIC LIGHTBOX VIEWER */}
+      {lightboxIndex !== null && (
+        <div
+          className="fixed inset-0 z-[150] bg-black/95 text-white flex flex-col justify-between p-4 sm:p-8 animate-fade-in"
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          {/* Top Bar */}
+          <div className="flex items-center justify-between z-10 max-w-7xl w-full mx-auto">
+            <div className="space-y-0.5">
+              <span className="font-sans text-base sm:text-lg text-white font-medium block">
+                S Kumar Portfolio Showcase
+              </span>
+              <span className="text-[10px] font-mono text-[#B89563] uppercase tracking-widest font-semibold">
+                Photo {lightboxIndex + 1} of {images.length}
+              </span>
+            </div>
+            <button
+              onClick={() => setLightboxIndex(null)}
+              className="p-2.5 rounded-full border border-white/20 hover:bg-white hover:text-black transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
             </button>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, idx) => (
-              <div
-                key={project.id}
-                onClick={() => onSelectProject(project)}
-                className={`group relative overflow-hidden rounded-[32px] bg-white border border-white cursor-pointer shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl ${
-                  idx % 4 === 0 ? 'lg:col-span-2 h-[440px]' : 'h-[390px]'
-                }`}
-              >
-                <img
-                  src={project.heroImage}
-                  alt={`${project.title} - ${project.category} in ${project.location}`}
-                  loading="lazy"
-                  decoding="async"
-                  onContextMenu={(e) => e.preventDefault()}
-                  onDragStart={(e) => e.preventDefault()}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent transition-opacity duration-300 group-hover:opacity-90" />
 
-                {/* Top Badges */}
-                <div className="absolute top-4 left-4 flex gap-2 items-center z-10">
-                  <div className="glass-capsule px-3.5 py-1 text-[10px] tracking-label text-[#B89563] border border-white/80 bg-white/90">
-                    {project.filterCategory}
-                  </div>
-                  {project.typeLabel && (
-                    <div className={`px-3 py-1 text-[10px] tracking-label rounded-full border backdrop-blur-md ${
-                      project.typeLabel === '3D Visualization'
-                        ? 'bg-amber-100/90 text-amber-900 border-amber-300'
-                        : 'bg-emerald-100/90 text-emerald-900 border-emerald-300'
-                    }`}>
-                      {project.typeLabel}
-                    </div>
-                  )}
-                </div>
+          {/* Center Image */}
+          <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden max-w-7xl w-full mx-auto">
+            <img
+              src={images[lightboxIndex]}
+              alt={`Photo ${lightboxIndex + 1}`}
+              onDragStart={(e) => e.preventDefault()}
+              className="max-h-[82vh] max-w-full object-contain select-none rounded-2xl shadow-2xl animate-fade-in"
+            />
 
-                {/* Bottom Overlapping Light Frosted Glass Metadata Panel */}
-                <div className="absolute bottom-5 left-5 right-5 z-20">
-                  <div className="glass-panel p-5 rounded-2xl border border-white shadow-xl flex items-end justify-between transition-transform duration-300 group-hover:-translate-y-1 bg-white/90 text-[#171717]">
-                    <div className="space-y-1">
-                      <span className="tracking-label text-[10px] text-[#B89563] block">
-                        {project.location} • {project.year}
-                      </span>
-                      <h3 className="font-sans text-xl sm:text-2xl font-semibold text-[#171717] tracking-tight group-hover:text-[#B89563] transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-xs text-[#333330] font-light line-clamp-1">
-                        {project.category} ({project.areaSqFt})
-                      </p>
-                    </div>
-                    <div className="w-10 h-10 rounded-full border border-stone-300 text-[#171717] bg-white flex items-center justify-center group-hover:bg-[#B89563] group-hover:border-transparent group-hover:text-white transition-all shrink-0 shadow-sm">
-                      <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            ))}
+            {/* Nav Arrows */}
+            <button
+              onClick={handlePrevLightbox}
+              className="absolute left-2 sm:left-4 p-3 bg-black/60 border border-white/20 text-white rounded-full hover:bg-[#B89563] transition-colors shadow-2xl"
+              aria-label="Previous"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={handleNextLightbox}
+              className="absolute right-2 sm:right-4 p-3 bg-black/60 border border-white/20 text-white rounded-full hover:bg-[#B89563] transition-colors shadow-2xl"
+              aria-label="Next"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
           </div>
-        )}
-      </section>
+
+          {/* Bottom Bar info */}
+          <div className="text-center text-xs text-[#A09D96] font-mono tracking-widest uppercase">
+            S Kumar Construction & Interior • Architectural Showcase
+          </div>
+        </div>
+      )}
 
       {/* Hidden Secure Gallery Manager Modal */}
       <GalleryManagerModal
