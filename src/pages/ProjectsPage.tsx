@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { PROJECTS } from '../data/projects';
 import type { Project, CategoryFilter } from '../types';
-import { Search, ArrowUpRight, Filter, Sparkles } from 'lucide-react';
+import { Search, ArrowUpRight, Filter, Sparkles, Images } from 'lucide-react';
+import { GalleryManagerModal } from '../components/GalleryManagerModal';
 
 interface ProjectsPageProps {
   onSelectProject: (project: Project) => void;
@@ -10,6 +11,27 @@ interface ProjectsPageProps {
 export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onSelectProject }) => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isManagerOpen, setIsManagerOpen] = useState(false);
+  const [projectsList, setProjectsList] = useState<Project[]>(PROJECTS);
+
+  const refreshGallery = async () => {
+    try {
+      const res = await fetch('/api/gallery', { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.projects) {
+          setProjectsList((prev) =>
+            prev.map((p) => {
+              const updated = data.projects.find((u: any) => u.id === p.id);
+              return updated ? { ...p, gallery: updated.gallery } : p;
+            })
+          );
+        }
+      }
+    } catch (err) {
+      console.warn('Could not refresh gallery dynamically:', err);
+    }
+  };
 
   const filters: CategoryFilter[] = [
     'All',
@@ -23,7 +45,7 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onSelectProject }) =
     '3D Visualization'
   ];
 
-  const filteredProjects = PROJECTS.filter((p) => {
+  const filteredProjects = projectsList.filter((p) => {
     const matchesFilter =
       activeFilter === 'All' ||
       p.filterCategory === activeFilter ||
@@ -45,11 +67,24 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onSelectProject }) =
 
       {/* 1. HEADER & SEARCH / FILTERS */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 space-y-6">
-        <div className="glass-capsule inline-flex items-center gap-3 px-4 py-2 border border-white bg-white/90 shadow-md">
-          <Sparkles className="w-3.5 h-3.5 text-[#967546]" />
-          <span className="tracking-label text-[10px] text-[#967546] font-bold">
-            ARCHITECTURAL PORTFOLIO ARCHIVE
-          </span>
+        <div className="flex items-center justify-between">
+          <div className="glass-capsule inline-flex items-center gap-3 px-4 py-2 border border-white bg-white/90 shadow-md">
+            <Sparkles className="w-3.5 h-3.5 text-[#967546]" />
+            <span className="tracking-label text-[10px] text-[#967546] font-bold">
+              ARCHITECTURAL PORTFOLIO ARCHIVE
+            </span>
+          </div>
+
+          {/* Subtle unobtrusive Add Images control */}
+          <button
+            onClick={() => setIsManagerOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] tracking-label font-medium text-stone-400 hover:text-[#967546] hover:bg-white/80 rounded-full transition-all focus:outline-none border border-transparent hover:border-stone-200"
+            title="Manage project gallery"
+            aria-label="Add Images"
+          >
+            <Images className="w-3.5 h-3.5" />
+            <span>Add Images</span>
+          </button>
         </div>
 
         <h1 className="font-sans text-3xl sm:text-5xl lg:text-6xl font-medium leading-[1.14] tracking-tight text-[#171717] max-w-4xl">
@@ -171,6 +206,13 @@ export const ProjectsPage: React.FC<ProjectsPageProps> = ({ onSelectProject }) =
           </div>
         )}
       </section>
+
+      {/* Hidden Secure Gallery Manager Modal */}
+      <GalleryManagerModal
+        isOpen={isManagerOpen}
+        onClose={() => setIsManagerOpen(false)}
+        onGalleryUpdated={refreshGallery}
+      />
     </div>
   );
 };
